@@ -4,14 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.alp_vp_jozz.ui.theme.ALP_VP_JOZZTheme
+import com.example.alp_vp_jozz.view.EsHype
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +17,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ALP_VP_JOZZTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                EsHype()
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     ALP_VP_JOZZTheme {
-        Greeting("Android")
+        EsHype()
     }
 }

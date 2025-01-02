@@ -137,13 +137,14 @@ fun NewsItemView(newsItem: NewsItem) {
                 .size(120.dp)
                 .padding(end = 20.dp)
         )
-        Column(modifier = Modifier.weight(1f)) {
+        Column(modifier = Modifier.weight(1f).padding(10.dp)) {
             Text(
                 text = newsItem.title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
+            Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = newsItem.description,
                 fontSize = 14.sp,
@@ -156,15 +157,13 @@ fun NewsItemView(newsItem: NewsItem) {
 @Preview(showBackground = true)
 @Composable
 fun NewsScreenPreview() {
-    val previewNewsList = listOf(
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-    )
+    // Generate a list of NewsItem dynamically
+    val previewNewsList = List(10) { index ->
+        NewsItem(
+            imageRes = R.drawable.shortnsweet,
+            title = "M6 Bracket MLBB $index",
+            description = "Preview Detail for item $index"
+        )
+    }
     NewsScreen(newsList = previewNewsList)
 }

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -65,11 +64,7 @@ fun Welcomestart() {
                 textAlign = TextAlign.Center
             )
         }
-        Divider(
-            color = Color.Gray,
-            thickness = 1.dp,
-            modifier = Modifier.fillMaxWidth()
-        )
+
 
         Box(
             modifier = Modifier
@@ -110,11 +105,7 @@ fun Welcomestart() {
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Bottom
             ) {
-                Divider(
-                    color = Color.Gray,
-                    thickness = 1.dp,
-                    modifier = Modifier.fillMaxWidth()
-                )
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Box(

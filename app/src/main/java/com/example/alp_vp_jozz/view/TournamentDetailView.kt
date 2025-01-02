@@ -1,5 +1,6 @@
 package com.example.alp_vp_jozz.view
 
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +30,7 @@ import com.example.alp_vp_jozz.R
 import com.example.alp_vp_jozz.view.templates.TorunamentCard
 
 @Composable
-fun TournamentView() {
+fun TournamentDetailView() {
     Box(
         modifier = Modifier
             .background(Color(0XFF222222))
@@ -77,17 +78,7 @@ fun TournamentView() {
         }
 
         // LazyColumn dengan padding untuk menyesuaikan posisi
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 90.dp, bottom = 80.dp, start = 16.dp, end = 16.dp) // Beri ruang untuk navbar atas dan bawah
-        ) {
-            items(5) { // Misalnya 5 kartu turnamen
-                TorunamentCard()
-                Spacer(modifier = Modifier.height(16.dp)) // Jarak antar kartu
-            }
-        }
-
+        
         // Navbar bawah
         Column(
             modifier = Modifier
@@ -140,6 +131,6 @@ fun TournamentView() {
 
 @Preview(showBackground = true)
 @Composable
-fun TournamentViewPreview() {
-    TournamentView()
+fun TournamentDetailViewPreview() {
+    TournamentDetailView()
 }

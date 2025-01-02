@@ -121,6 +121,8 @@ fun ProfileView() {
         }
         Spacer(modifier = Modifier.height(16.dp))
 
+        val hasTeam = false // Ganti dengan kondisi sebenarnya untuk mengecek keberadaan tim
+
         Text(
             text = "Team",
             fontSize = 18.sp,
@@ -128,41 +130,55 @@ fun ProfileView() {
             color = Color.White,
             modifier = Modifier.padding(start = 16.dp)
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { /* Handle team click action */ }
-                .padding(16.dp)
-                .border(2.dp, Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-        ) {
-            Row {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background), // Replace with actual team image resource
-                    contentDescription = "Team Picture",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
+        if (!hasTeam) {
+            Text(
+                text = "You don't have any team",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                textAlign = TextAlign.Center
+            )
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { /* Handle team click action */ }
+                    .padding(16.dp)
+                    .border(2.dp, Color.White, RoundedCornerShape(8.dp))
+                    .padding(16.dp)
+            ) {
+                Row {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_launcher_background), // Replace with actual team image resource
+                        contentDescription = "Team Picture",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        contentScale = ContentScale.Crop
+                    )
 
-                Column(modifier = Modifier.padding(start = 16.dp)) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Mobile Legend",
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Start,
-                        color = Color.Gray
-                    )
-                    Text(
-                        text = "Delvin Mekanik Tua",
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Start,
-                        color = Color.White
-                    )
+                    Column(modifier = Modifier.padding(start = 16.dp)) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Mobile Legend",
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Start,
+                            color = Color.Gray
+                        )
+                        Text(
+                            text = "Delvin Mekanik Tua",
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Start,
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 

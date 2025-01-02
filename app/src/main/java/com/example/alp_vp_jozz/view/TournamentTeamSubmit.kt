@@ -1,8 +1,8 @@
 package com.example.alp_vp_jozz.view
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -22,6 +24,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,9 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp_jozz.R
 
-
 @Composable
-fun TournamentDetailView() {
+fun TournamentTeamSubmit(onClick: () -> Unit) {
+    var isSelected by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -109,95 +115,95 @@ fun TournamentDetailView() {
                     .background(Color.Gray)
                     .padding(bottom = 16.dp)
             )
-
-            // Description Section
-            Text(
-                text = "Description",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                fontSize = 14.sp,
-                color = Color.Gray,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            // Information Section
-            Row(
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .height(50.dp)
+                    .background(Color(0xFF424242), RoundedCornerShape(10.dp)),
+                contentAlignment = Alignment.CenterStart
             ) {
-                Column {
-                    Text(
-                        text = "Biaya Pendaftaran",
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Rp 20.000",
-                        fontSize = 14.sp,
-                        color = Color.White
-                    )
-                }
-                Column {
-                    Text(
-                        text = "Lokasi",
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Jakarta",
-                        fontSize = 14.sp,
-                        color = Color.White
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(
-                        text = "Rules",
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "BO 3",
-                        fontSize = 14.sp,
-                        color = Color.White
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0xFF448AFF), // Warna background biru
-                            shape = RoundedCornerShape(8.dp) // Membuat sudut melengkung
-                        )
-                        .padding(horizontal = 16.dp, vertical = 8.dp) // Padding di dalam kotak
-                        .clickable {
-                            // TODO: Tambahkan aksi klik di sini
-                        },
-                    contentAlignment = Alignment.Center // Konten di tengah
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 12.dp)
                 ) {
                     Text(
-                        text = "Click",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
+                        text = "Search Team Name",
+                        color = Color.Gray,
+                        fontSize = 14.sp,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.baseline_search_24),
+                        contentDescription = "Search Icon",
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Search bar // State untuk kontrol outline
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFF333333), RoundedCornerShape(12.dp))
+                        .border(
+                            width = if (isSelected) 2.dp else 0.dp,
+                            color = if (isSelected) Color(0xFF448AFF) else Color.Transparent,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .clickable {
+                            isSelected = !isSelected // Toggle outline
+                            onClick()
+                        }
+                        .padding(12.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_launcher_background), // Replace with your image
+                            contentDescription = "Team Logo",
+                            modifier = Modifier
+                                .size(64.dp)
+                                .background(Color.Gray, shape = CircleShape)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Tinju Bales Tinju",
+                            color = Color.White,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Submit button
+                Button(
+                    onClick = { /* TODO: Add action */ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF448AFF)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(
+                        text = "Submit",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
         }
 
         // Navbar bawah
@@ -249,9 +255,8 @@ fun TournamentDetailView() {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-fun TournamentDetailViewPreview() {
-    TournamentDetailView()
+fun TournamentTeamSubmitPreview() {
+    TournamentTeamSubmit(onClick = { /* Action on click */ })
 }

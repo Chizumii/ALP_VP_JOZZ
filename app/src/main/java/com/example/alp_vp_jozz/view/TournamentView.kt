@@ -32,12 +32,14 @@ import com.example.alp_vp_jozz.view.templates.TorunamentCard
 fun TournamentView() {
     Box(
         modifier = Modifier
+            .fillMaxSize()
             .background(Color(0XFF222222))
     ) {
         // Navbar atas
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .align(Alignment.TopCenter)
                 .background(Color(0XFF222222))
         ) {
             Box(
@@ -80,7 +82,12 @@ fun TournamentView() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 90.dp, bottom = 80.dp, start = 16.dp, end = 16.dp) // Beri ruang untuk navbar atas dan bawah
+                .padding(
+                    top = 90.dp,
+                    bottom = 80.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ) // Beri ruang untuk navbar atas dan bawah
         ) {
             items(5) { // Misalnya 5 kartu turnamen
                 TorunamentCard()

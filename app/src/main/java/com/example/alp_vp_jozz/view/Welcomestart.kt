@@ -37,6 +37,7 @@ fun Welcomestart() {
             .background(Color(0XFF222222))
     ) {
         Box(
+
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color(0XFF222222)),

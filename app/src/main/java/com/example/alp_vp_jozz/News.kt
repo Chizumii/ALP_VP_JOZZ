@@ -30,13 +30,13 @@ fun NewsScreen(newsList: List<NewsItem>, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0XFF222222))
+            .background(Color(0xFF222222))
     ) {
         // Header Section
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0XFF222222)),
+                .background(Color(0xFF222222)),
             contentAlignment = Alignment.Center
         ) {
             Row(
@@ -68,7 +68,11 @@ fun NewsScreen(newsList: List<NewsItem>, modifier: Modifier = Modifier) {
         )
 
         // News List Section
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 16.dp)
+        ) {
             items(newsList) { news ->
                 NewsItemView(news)
                 Divider(color = Color.Gray, thickness = 1.dp)
@@ -76,66 +80,43 @@ fun NewsScreen(newsList: List<NewsItem>, modifier: Modifier = Modifier) {
         }
 
         // Bottom Navigation
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF222222))
         ) {
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(
+            Row(
                 modifier = Modifier
-                    .height(16.dp)
-            )
-
-            Box(
-                modifier = Modifier
-                    .height(80.dp)
                     .fillMaxWidth()
-                    .background(Color(0XFF222222))
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Spacer(modifier = Modifier.padding(start = 10.dp))
-
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_home_filled_24),
-                        contentDescription = "home",
-                        modifier = Modifier.size(40.dp)
-                    )
-
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_search_24),
-                        contentDescription = "search",
-                        modifier = Modifier.size(40.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.champion),
-                        contentDescription = "champion",
-                        modifier = Modifier.size(40.dp)
-                    )
-
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_groups_24),
-                        contentDescription = "team",
-                        modifier = Modifier.size(40.dp)
-                    )
-
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
-                        contentDescription = "profile",
-                        modifier = Modifier.size(40.dp)
-                    )
-
-                    Spacer(modifier = Modifier.padding(end = 10.dp))
-                }
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_home_filled_24),
+                    contentDescription = "Home",
+                    modifier = Modifier.size(40.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_search_24),
+                    contentDescription = "Search",
+                    modifier = Modifier.size(40.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.champion),
+                    contentDescription = "Champion",
+                    modifier = Modifier.size(40.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_groups_24),
+                    contentDescription = "Team",
+                    modifier = Modifier.size(40.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_person_24),
+                    contentDescription = "Profile",
+                    modifier = Modifier.size(40.dp)
+                )
             }
         }
     }
@@ -156,13 +137,14 @@ fun NewsItemView(newsItem: NewsItem) {
                 .size(120.dp)
                 .padding(end = 20.dp)
         )
-        Column(modifier = Modifier.weight(1f)) {
+        Column(modifier = Modifier.weight(1f).padding(10.dp)) {
             Text(
                 text = newsItem.title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
+            Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = newsItem.description,
                 fontSize = 14.sp,
@@ -175,12 +157,13 @@ fun NewsItemView(newsItem: NewsItem) {
 @Preview(showBackground = true)
 @Composable
 fun NewsScreenPreview() {
-    val previewNewsList = listOf(
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-        NewsItem(R.drawable.shortnsweet, "M6 Bracket MLBB", "Preview Detail.."),
-    )
+    // Generate a list of NewsItem dynamically
+    val previewNewsList = List(10) { index ->
+        NewsItem(
+            imageRes = R.drawable.shortnsweet,
+            title = "M6 Bracket MLBB $index",
+            description = "Preview Detail for item $index"
+        )
+    }
     NewsScreen(newsList = previewNewsList)
 }

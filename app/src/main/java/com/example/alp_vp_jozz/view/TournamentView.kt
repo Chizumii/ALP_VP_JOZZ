@@ -60,7 +60,7 @@ fun TournamentView() {
                         contentDescription = "Logo",
                         modifier = Modifier.size(80.dp)
                     )
-                    Spacer(modifier = Modifier.weight(1f)) // Spacer untuk merenggangkan konten
+                    Spacer(modifier = Modifier.weight(1f))
                 }
 
                 Text(

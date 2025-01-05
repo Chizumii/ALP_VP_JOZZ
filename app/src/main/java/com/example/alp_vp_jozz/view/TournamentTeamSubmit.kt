@@ -39,7 +39,7 @@ fun TournamentTeamSubmit(onClick: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.TopCenter) // Pastikan berada di bagian atas
+                .align(Alignment.TopCenter)
                 .background(Color(0XFF222222))
         ) {
             Box(

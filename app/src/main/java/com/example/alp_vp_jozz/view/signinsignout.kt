@@ -46,7 +46,7 @@ fun SharedLayout(content: @Composable () -> Unit) {
             }
 
             Text(
-                text = "Welcome, @DearUser",
+                text = "Welcome",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,

@@ -110,6 +110,7 @@ fun TournamentDetailView() {
                     .padding(bottom = 16.dp)
             )
 
+            Spacer(modifier = Modifier.height(16.dp))
             // Description Section
             Text(
                 text = "Description",
@@ -192,7 +193,7 @@ fun TournamentDetailView() {
                     contentAlignment = Alignment.Center // Konten di tengah
                 ) {
                     Text(
-                        text = "Click",
+                        text = "Register",
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )

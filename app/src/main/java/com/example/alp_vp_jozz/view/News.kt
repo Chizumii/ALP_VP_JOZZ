@@ -1,4 +1,4 @@
-package com.example.alp_vp_jozz
+package com.example.alp_vp_jozz.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.alp_vp_jozz.R
 
 // Data class for News
 data class NewsItem(

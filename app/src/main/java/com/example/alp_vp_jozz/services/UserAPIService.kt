@@ -1,55 +1,20 @@
 package com.example.alp_vp_jozz.services
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.todolistapp.models.GeneralResponseModel
-import com.example.todolistapp.services.UserAPIService
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.example.alp_vp_jozz.models.GetUserResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Multipart
+import retrofit2.http.PATCH
+import retrofit2.http.Part
+import retrofit2.http.Path
 
-interface UserRepository {
-    val currentUserToken: Flow<String>
-    val currentUsername: Flow<String>
+interface UserAPIService {
+    @GET("api/users/{userId}")
+    fun getUser(@Header("Authorization") token: String, @Path("userId") userId: Int): Call<GetUserResponse>
 
-    fun logout(token: String): Call<GeneralResponseModel>
-
-    suspend fun saveUserToken(token: String)
-    suspend fun saveUsername(username: String)
-}
-
-class NetworkUserRepository(
-    private val userDataStore: DataStore<Preferences>,
-    private val userAPIService: UserAPIService
-) : UserRepository {
-    private companion object {
-        val USER_TOKEN = stringPreferencesKey("token")
-        val USERNAME = stringPreferencesKey("username")
-
-    }
-
-    override val currentUserToken: Flow<String> =
-        userDataStore.data.map { preferences -> preferences[USER_TOKEN] ?: "Unknown" }
-
-    override val currentUsername: Flow<String> =
-        userDataStore.data.map { preferences -> preferences[USERNAME] ?: "Unknown" }
-
-
-    override fun logout(token: String): Call<GeneralResponseModel> {
-        return userAPIService.logout(token)
-    }
-
-    override suspend fun saveUserToken(token: String) {
-        userDataStore.edit { preferences ->
-            preferences[USER_TOKEN] = token
-        }
-    }
-
-    override suspend fun saveUsername(username: String) {
-        userDataStore.edit { preferences ->
-            preferences[USERNAME] = username
-        }
-    }
+    @Multipart
+    @PATCH("api/users/{userId}/update")
+    fun updateUser(@Header("Authorization") token: String, @Path("userId") userId: Int, @Part username: MultipartBody.Part, @Part profile_image: MultipartBody.Part): Call<GetUserResponse>
 }

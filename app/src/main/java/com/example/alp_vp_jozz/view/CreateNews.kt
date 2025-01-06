@@ -1,24 +1,27 @@
 package com.example.alp_vp_jozz.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp_jozz.R
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.ui.res.painterResource
 
-// Main Composable
 @Composable
 fun CreateNewsScreen() {
     Column(
@@ -31,7 +34,7 @@ fun CreateNewsScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Create Team Form
+        // Create News Form
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -56,11 +59,11 @@ fun CreateNewsScreen() {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Input Fields
-                CustomTextField("News Name")
+                InputField(label = "News Name")
                 Spacer(modifier = Modifier.height(8.dp))
-                CustomTextField("Description")
+                InputField(label = "Description")
                 Spacer(modifier = Modifier.height(8.dp))
-                CustomTextField("Nickname")
+                InputField(label = "Nickname")
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Upload Logo
@@ -90,7 +93,7 @@ fun CreateNewsScreen() {
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
-                CustomTextField("Leader Phone Number")
+                InputField(label = "Leader Phone Number")
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -106,71 +109,71 @@ fun CreateNewsScreen() {
             }
         }
 
-
         Spacer(modifier = Modifier.weight(1f))
 
         // Bottom Navigation
-        BottomNavigationBar()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            val icons = listOf(
+                R.drawable.baseline_home_filled_24 to "Home",
+                R.drawable.baseline_search_24 to "Search",
+                R.drawable.champion to "Champion",
+                R.drawable.baseline_groups_24 to "Team",
+                R.drawable.baseline_person_24 to "Profile"
+            )
+
+            icons.forEach { (iconRes, description) ->
+                Image(
+                    painter = painterResource(id = iconRes),
+                    contentDescription = description,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable { /* Handle Navigation */ }
+                )
+            }
+        }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTextField(label: String) {
-    OutlinedTextField(
-        value = "",
-        onValueChange = { /* Handle Text Change */ },
-        label = { Text(label) },
-        modifier = Modifier.fillMaxWidth(),
-        textStyle = androidx.compose.ui.text.TextStyle(color = Color.White), // Set text color here
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color(0xFF5A5AFF),
-            unfocusedBorderColor = Color.Gray,
-            focusedLabelColor = Color.White,
-            unfocusedLabelColor = Color.Gray,
-            cursorColor = Color.White
+fun InputField(label: String) {
+    var text by remember { mutableStateOf("") } // Inisialisasi dengan string kosong
 
+    Column(modifier = Modifier.fillMaxWidth()) {
+        // Label
+        Text(
+            text = label,
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)
         )
-    )
-}
 
-@Composable
-fun BottomNavigationsBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.baseline_home_filled_24),
-            contentDescription = "home",
-            modifier = Modifier.size(40.dp)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.baseline_search_24),
-            contentDescription = "search",
-            modifier = Modifier.size(40.dp)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.champion),
-            contentDescription = "champion",
-            modifier = Modifier.size(40.dp)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.baseline_groups_24),
-            contentDescription = "team",
-            modifier = Modifier.size(40.dp)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.baseline_person_24),
-            contentDescription = "profile",
-            modifier = Modifier.size(40.dp)
-        )
+        // Input Field
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF333333), shape = RoundedCornerShape(8.dp))
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            BasicTextField(
+                value = text,
+                onValueChange = { newText ->
+                    text = newText // Pastikan nilai baru selalu berupa string
+                },
+                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
+
+
 
 // Fix: Place Preview Function at the Top Level
 @Preview(showBackground = true)

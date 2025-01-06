@@ -5,16 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,11 +26,24 @@ fun CreateNewsScreen() {
             .background(Color(0xFF222222))
     ) {
         // Top Bar
-        TopBar()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF333333))
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "News Creation",
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Create News Form
+        // Create News Section
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,15 +67,7 @@ fun CreateNewsScreen() {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Input Fields
-                InputField(label = "News Name")
-                Spacer(modifier = Modifier.height(8.dp))
-                InputField(label = "Description")
-                Spacer(modifier = Modifier.height(8.dp))
-                InputField(label = "Nickname")
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // Upload Logo
+                // Upload Logo Section
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -91,9 +92,6 @@ fun CreateNewsScreen() {
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
-                InputField(label = "Leader Phone Number")
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -141,41 +139,7 @@ fun CreateNewsScreen() {
     }
 }
 
-@Composable
-fun InputField(label: String) {
-    var text by remember { mutableStateOf("") } // Inisialisasi dengan string kosong
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        // Label
-        Text(
-            text = label,
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)
-        )
-
-        // Input Field
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFF333333), shape = RoundedCornerShape(8.dp))
-                .padding(horizontal = 12.dp, vertical = 8.dp)
-        ) {
-            BasicTextField(
-                value = text,
-                onValueChange = { newText ->
-                    text = newText // Pastikan nilai baru selalu berupa string
-                },
-                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-}
-
-
-
-// Fix: Place Preview Function at the Top Level
 @Preview(showBackground = true)
 @Composable
 fun CreateNewsScreenPreview() {

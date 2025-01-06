@@ -1,7 +1,6 @@
 package com.example.alp_vp_jozz.services
 
 import com.example.alp_vp_jozz.models.UserResponse
-import com.example.alp_vp_jozz.models.UserModel
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -22,14 +21,14 @@ interface ProfileService {
     @POST("users")
     fun createUserProfile(
         @Header("X-API-TOKEN") token: String,
-        @Body userModel: UserModel
+        @Body userModel: UserResponse
     ): Call<UserResponse>
 
     @PUT("users/{id}")
     fun updateUserProfile(
         @Header("X-API-TOKEN") token: String,
         @Path("id") id: Int,
-        @Body userModel: UserModel
+        @Body userModel: UserResponse
     ): Call<UserResponse>
 
     @DELETE("users/{id}")

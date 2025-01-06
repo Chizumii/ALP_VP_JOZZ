@@ -7,5 +7,7 @@ data class UserResponse(
     val nama_depan: String,
     val nama_belakang: String,
     val nomor_telp: String,
-    val nicknamegame: String
+    val nicknamegame: String,
+    val teamid : Int,
+    val token : String
 )

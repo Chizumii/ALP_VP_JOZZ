@@ -64,7 +64,7 @@ class NetworkProfileRepository(
         return profileService.updateUserProfile(
             token,
             id,
-            UserModel(
+            UserResponse(
                 username = username ?: "",
                 email = email ?: "",
                 password = password ?: "",

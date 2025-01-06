@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.alp_vp_jozz.repositories.AuthenticationRepository
 import com.example.alp_vp_jozz.repositories.NetworkAuthenticationRepository
-import com.example.alp_vp_jozz.services.AuthenticationAPIService
+import com.example.alp_vp_jozz.services.AuthenticationService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,10 +20,10 @@ class DefaultAppContainer(
 ): AppContainer{
     private val APIBaseURL = "http://192.168.50.69:3000/"
 
-    private val authenticationRetrofitService: AuthenticationAPIService by lazy {
+    private val authenticationRetrofitService: AuthenticationService by lazy {
         val retrofit = initRetrofit()
 
-        retrofit.create(AuthenticationAPIService::class.java)
+        retrofit.create(AuthenticationService::class.java)
     }
 
     override val authenticationRepository: AuthenticationRepository by lazy {

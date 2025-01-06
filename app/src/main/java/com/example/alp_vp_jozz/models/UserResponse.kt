@@ -15,5 +15,6 @@ data class UserModel(
 data class GetUserResponse(
     val status: Int,
     val message: String,
-    val data: GetUserModel
 )
+
+

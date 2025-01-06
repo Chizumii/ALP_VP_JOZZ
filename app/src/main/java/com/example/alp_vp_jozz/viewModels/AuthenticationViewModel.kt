@@ -249,7 +249,7 @@ class AuthenticationViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as FoodGramApplication)
+                val application = (this[APPLICATION_KEY] as EshypeApplication)
                 val authenticationRepository = application.container.authenticationRepository
                 val userRepository = application.container.userRepository
                 AuthenticationViewModel(authenticationRepository, userRepository)

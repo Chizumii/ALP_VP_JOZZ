@@ -11,4 +11,7 @@ interface AuthenticationAPIService {
 
     @POST("api/login")
     fun login(@Body loginMap: HashMap<String, String>): Call<UserResponse>
+
+    @POST("api/logout")
+    fun logout(): Call<UserResponse>
 }

@@ -18,7 +18,7 @@ interface AppContainer{
 class DefaultAppContainer(
     private val userDataStore: DataStore<Preferences>
 ): AppContainer{
-    private val APIBaseURL = "http://192.168.50.69:3000/"
+    private val APIBaseURL = "http://192.168.56.69:3000/"
 
     private val authenticationRetrofitService: AuthenticationAPIService by lazy {
         val retrofit = initRetrofit()

@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.alp_vp_jozz.ui.theme.ALP_VP_JOZZTheme
 import com.example.alp_vp_jozz.view.EsHype
 
-class MainActivity : ComponentActivity() {
+class   MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -1,57 +1,37 @@
 package com.example.alp_vp_jozz.repositories
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.todolistapp.models.GeneralResponseModel
-import com.example.todolistapp.services.UserAPIService
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import retrofit2.Call
+// repository/UserRepository.kt
+// data/repository/UserRepository.kt
+import com.example.alp_vp_jozz.models.ApiResponse
+import com.example.alp_vp_jozz.models.RegisterUserRequest
+import com.example.alp_vp_jozz.models.UserResponse
+import com.example.alp_vp_jozz.services.UserApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-interface UserRepository {
-    val currentUserToken: Flow<String>
-    val currentUsername: Flow<String>
-
-    fun logout(token: String): Call<GeneralResponseModel>
-
-    suspend fun saveUserToken(token: String)
-
-    suspend fun saveUsername(username: String)
+sealed class Result<out T> {
+    data class Success<out T>(val data: T): Result<T>()
+    data class Error(val exception: String): Result<Nothing>()
 }
 
-class NetworkUserRepository(
-    private val userDataStore: DataStore<Preferences>,
-    private val userAPIService: UserAPIService
-): UserRepository {
-    private companion object {
-        val USER_TOKEN = stringPreferencesKey("token")
-        val USERNAME = stringPreferencesKey("username")
-    }
+class UserRepository @Inject constructor(private val api: UserApi) {
 
-    override val currentUserToken: Flow<String> = userDataStore.data.map { preferences ->
-        preferences[USER_TOKEN] ?: "Unknown"
-    }
-
-    override val currentUsername: Flow<String> = userDataStore.data.map { preferences ->
-        preferences[USERNAME] ?: "Unknown"
-    }
-
-    override suspend fun saveUserToken(token: String) {
-        userDataStore.edit { preferences ->
-            preferences[USER_TOKEN] = token
+    suspend fun registerUser(request: RegisterUserRequest): Result<UserResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = api.registerUser(request)
+                if (response.data != null) {
+                    Result.Success(response.data)
+                } else {
+                    Result.Error(response.message)
+                }
+            } catch (e: Exception) {
+                Result.Error(e.localizedMessage ?: "An unexpected error occurred")
+            }
         }
     }
 
-    override suspend fun saveUsername(username: String) {
-        userDataStore.edit { preferences ->
-            preferences[USERNAME] = username
-        }
-    }
-
-    override fun logout(token: String): Call<GeneralResponseModel> {
-        return userAPIService.logout(token)
-    }
+    // Tambahkan fungsi lain seperti login, update, logout jika diperlukan
 }
+

@@ -1,7 +1,6 @@
 package com.example.alp_vp_jozz.repositories
 
 import com.example.alp_vp_jozz.models.UserResponse
-import com.example.alp_vp_jozz.models.UserModel
 import com.example.alp_vp_jozz.services.ProfileService
 import retrofit2.Call
 
@@ -36,7 +35,7 @@ class NetworkProfileRepository(
     ): Call<UserResponse> {
         return profileService.createUserProfile(
             token,
-            UserModel(
+            UserResponse(
                 username = username ?: "",
                 email = email ?: "",
                 password = password ?: "",

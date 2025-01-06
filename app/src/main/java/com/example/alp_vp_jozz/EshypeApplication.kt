@@ -10,7 +10,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "user_data"
 )
 
-open class FoodGramApplication : Application() {
+open class EshypeApplication : Application() {
     lateinit var container: AppContainer
     override fun onCreate() {
         super.onCreate()

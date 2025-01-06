@@ -1,194 +1,190 @@
-package com.example.alp_vp_jozz.view
+// ui/view/SignUpPage.kt
+package com.example.alp_vp_jozz.ui.view
 
+// ui/RegisterScreen.kt
+import androidx.compose.foundation.Image
+import com.example.alp_vp_jozz.R
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.alp_vp_jozz.models.RegisterUserRequest
+import com.example.alp_vp_jozz.utils.Result
+import com.example.alp_vp_jozz.viewModels.UserViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpPage(onBackToSignInClick: () -> Unit) {
-    var username by remember { mutableStateOf(TextFieldValue()) }
-    var firstName by remember { mutableStateOf(TextFieldValue()) }
-    var lastName by remember { mutableStateOf(TextFieldValue()) }
-    var phoneNumber by remember { mutableStateOf(TextFieldValue()) }
-    var email by remember { mutableStateOf(TextFieldValue()) }
-    var password by remember { mutableStateOf(TextFieldValue()) }
-    var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
-    var gameID by remember { mutableStateOf(TextFieldValue()) }
-    var nickname by remember { mutableStateOf(TextFieldValue()) }
+fun RegisterScreen(userViewModel: UserViewModel, onRegisterSuccess: () -> Unit) {
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var namaDepan by remember { mutableStateOf("") }
+    var namaBelakang by remember { mutableStateOf("") }
+    var nomorTelp by remember { mutableStateOf("") }
+    var nicknameGame by remember { mutableStateOf("") }
+    var teamID by remember { mutableStateOf("") }
 
-    // Validation states
-    var isPasswordMatchError by remember { mutableStateOf(false) }
-    SharedLayout {
-        Column(
+    val registerState by userViewModel.registerState.collectAsState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0XFF222222))
+    ) {
+        // Header
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0XFF222222))
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+                .fillMaxWidth()
+                .background(Color(0XFF222222)),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Create Account",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Username Field
-            OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username ") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // First Name Field
-            OutlinedTextField(
-                value = firstName,
-                onValueChange = { firstName = it },
-                label = { Text("First Name") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Last Name Field
-            OutlinedTextField(
-                value = lastName,
-                onValueChange = { lastName = it },
-                label = { Text("Last Name") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Phone Number Field
-            OutlinedTextField(
-                value = phoneNumber,
-                onValueChange = { phoneNumber = it },
-                label = { Text("Phone Number") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Email Field
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Email") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Password Field
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Confirm Password Field
-            OutlinedTextField(
-                value = confirmPassword,
-                onValueChange = {
-                    confirmPassword = it
-                    isPasswordMatchError = confirmPassword.text != password.text
-                },
-                label = { Text("Confirm Password") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                isError = isPasswordMatchError
-            )
-            if (isPasswordMatchError) {
-                Text(
-                    text = "Passwords do not match.",
-                    color = Color.Red,
-                    fontSize = 12.sp,
-                    modifier = Modifier.align(Alignment.Start)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Game ID Field
-            OutlinedTextField(
-                value = gameID,
-                onValueChange = { gameID = it },
-                label = { Text("Game ID (Numbers Only)") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Nickname Field
-            OutlinedTextField(
-                value = nickname,
-                onValueChange = { nickname = it },
-                label = { Text("Game Nickname") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Create Account Button
-            Button(
-                onClick = {
-                    // Handle account creation logic here
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0XFF5A5AFF))
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Create Account", color = Color.White)
+                Image(
+                    painter = painterResource(R.drawable.community_removebg_preview),
+                    contentDescription = "Logo",
+                    modifier = Modifier.size(80.dp)
+                )
+                Spacer(modifier = Modifier.weight(1f))
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Back to Sign In Text
             Text(
-                text = "Back to Sign In",
-                color = Color.Cyan,
-                modifier = Modifier.clickable { onBackToSignInClick() },
-                fontSize = 16.sp
+                text = "Create Tournament",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center
             )
         }
+        Divider(
+            color = Color.Gray,
+            thickness = 1.dp,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
+    Scaffold(
+        content = { padding ->
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .padding(16.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = { username = it },
+                    label = { Text("Username") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text("Email") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") },
+                    modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = PasswordVisualTransformation()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = namaDepan,
+                    onValueChange = { namaDepan = it },
+                    label = { Text("Nama Depan") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = namaBelakang,
+                    onValueChange = { namaBelakang = it },
+                    label = { Text("Nama Belakang") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = nomorTelp,
+                    onValueChange = { nomorTelp = it },
+                    label = { Text("Nomor Telepon") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = nicknameGame,
+                    onValueChange = { nicknameGame = it },
+                    label = { Text("Nickname Game") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = teamID,
+                    onValueChange = { teamID = it },
+                    label = { Text("Team ID") },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        val request = RegisterUserRequest(
+                            username = username,
+                            email = email,
+                            password = password,
+                            nama_depan = namaDepan,
+                            nama_belakang = namaBelakang,
+                            nomor_telp = nomorTelp,
+                            nicknamegame = nicknameGame,
+                            TeamID = teamID.toIntOrNull() ?: 0
+                        )
+                        userViewModel.registerUser(request)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Register")
+                }
+            }
+        }
+    )
 }
-@Preview(showBackground = true, name = "Sign Up Page Preview")
-@Composable
-fun SignUpPagePreview() {
-    SignUpPage(onBackToSignInClick = {})
-}
+

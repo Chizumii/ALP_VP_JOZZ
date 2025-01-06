@@ -1,8 +1,10 @@
 package com.example.alp_vp_jozz.view
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,27 +16,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.alp_vp_jozz.R
 
 @Composable
-fun ProfileEdit() {
+fun CreateTournament() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +67,7 @@ fun ProfileEdit() {
             }
 
             Text(
-                text = "Profile",
+                text = "Create Tournament",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -75,7 +80,7 @@ fun ProfileEdit() {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Edit Profile Section
+        // Tournament Creation Section
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -85,128 +90,124 @@ fun ProfileEdit() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Input Fields
-            val nickname = remember { mutableStateOf("") }
-            val firstName = remember { mutableStateOf("") }
-            val lastName = remember { mutableStateOf("") }
-            val phoneNumber = remember { mutableStateOf("") }
+            val tournamentName = remember { mutableStateOf("") }
+            val description = remember { mutableStateOf("") }
+            val cost = remember { mutableStateOf("") }
+            val location = remember { mutableStateOf("") }
+            val tournamentType = remember { mutableStateOf("") }
 
+            // Image Upload
+            var imageUri by remember { mutableStateOf<Uri?>(null) }
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.GetContent()
+            ) { uri: Uri? ->
+                imageUri = uri
+            }
+
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Tournament Name Input
             OutlinedTextField(
-                value = nickname.value,
-                onValueChange = { nickname.value = it },
-                label = { Text("Nickname") },
+                value = tournamentName.value,
+                onValueChange = { tournamentName.value = it },
+                label = { Text("Tournament Name") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
                 singleLine = true
             )
             Spacer(modifier = Modifier.height(8.dp))
+
+            // Description Input
             OutlinedTextField(
-                value = firstName.value,
-                onValueChange = { firstName.value = it },
-                label = { Text("Nama Depan") },
+                value = description.value,
+                onValueChange = { description.value = it },
+                label = { Text("Description") },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                maxLines = 3
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Cost Input
+            OutlinedTextField(
+                value = cost.value,
+                onValueChange = { cost.value = it },
+                label = { Text("Cost") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
                 singleLine = true
             )
             Spacer(modifier = Modifier.height(8.dp))
+
+            // Location Input
             OutlinedTextField(
-                value = lastName.value,
-                onValueChange = { lastName.value = it },
-                label = { Text("Nama Belakang") },
+                value = location.value,
+                onValueChange = { location.value = it },
+                label = { Text("Location") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
                 singleLine = true
             )
             Spacer(modifier = Modifier.height(8.dp))
+
+            // Tournament Type Input
             OutlinedTextField(
-                value = phoneNumber.value,
-                onValueChange = { phoneNumber.value = it },
-                label = { Text("Nomor Telepon") },
+                value = tournamentType.value,
+                onValueChange = { tournamentType.value = it },
+                label = { Text("Tournament Type") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
                 singleLine = true
             )
+            Spacer(modifier = Modifier.height(18.dp))
+            Box(
+                modifier = Modifier
+                    .size(120.dp)
+                    .background(Color.Gray, shape = RoundedCornerShape(8.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                if (imageUri != null) {
+                    Image(
+                        painter = rememberAsyncImagePainter(imageUri),
+                        contentDescription = "Tournament Image",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    Text(
+                        text = "Upload Image",
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+            }
 
+            Spacer(modifier = Modifier.height(8.dp))
 
+            Button(
+                onClick = { launcher.launch("image/*") },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8FACE7))
+            ) {
+                Text(text = "Choose Image", color = Color.White) // Teks tombol dibuat putih agar terlihat jelas
+            }
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Save Button
+            // Create Tournament Button
             Button(
-                onClick = { /* Save profile logic */ },
+                onClick = { /* Create tournament logic */ },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
-                colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = Color(0XFF8FACE7))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0XFF8FACE7))
             ) {
-                Text(text = "Save", color = Color.White, fontSize = 16.sp)
-            }
-        }
-    }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        Divider(
-            color = Color.Gray,
-            thickness = 1.dp,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(
-            modifier = Modifier
-                .height(16.dp)
-        )
-
-        Box(
-            modifier = Modifier
-                .height(80.dp)
-                .fillMaxWidth()
-                .background(Color(0XFF222222))
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Spacer(modifier = Modifier.padding(start = 5.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_home_filled_24),
-                    contentDescription = "home",
-                    modifier = Modifier.size(40.dp)
-                )
-
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "search",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.champion),
-                    contentDescription = "champion",
-                    modifier = Modifier.size(40.dp)
-                )
-
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_groups_24),
-                    contentDescription = "team",
-                    modifier = Modifier.size(40.dp)
-                )
-
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_person_24),
-                    contentDescription = "profile",
-                    modifier = Modifier.size(40.dp)
-                )
-
-                Spacer(modifier = Modifier.padding(end = 5.dp))
+                Text(text = "Create Tournament", color = Color.White, fontSize = 16.sp)
             }
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-fun ProfileEditPreview() {
-    ProfileEdit()
+fun CreateTournamentPreview() {
+    CreateTournament()
 }

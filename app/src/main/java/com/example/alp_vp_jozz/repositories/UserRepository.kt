@@ -1,12 +1,11 @@
 package com.example.alp_vp_jozz.repositories
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.todolistapp.models.GeneralResponseModel
-import com.example.todolistapp.services.UserAPIService
+import com.example.alp_vp_jozz.models.GeneralResponseModel
+import com.example.alp_vp_jozz.services.UserAPIService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import retrofit2.Call

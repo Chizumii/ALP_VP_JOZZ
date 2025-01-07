@@ -90,12 +90,12 @@ fun TournamentView() {
                 ) // Beri ruang untuk navbar atas dan bawah
         ) {
             items(5) { name_tournament -> // Example with 5 tournament cards
-                TorunamentCard(
-                    tournamentId = "tournament_$name_tournament",
-                    onCardClick = { name_tournament ->
-                        onCa(name_tournament) // Trigger navigation with tournamentId
-                    }
-                )
+//                TorunamentCard(
+////                    tournamentId = "tournament_$name_tournament",
+////                    onCardClick = { name_tournament ->
+////                        onCa(name_tournament) // Trigger navigation with tournamentId
+////                    }
+//                )
                 Spacer(modifier = Modifier.height(16.dp)) // Space between cards
             }
         }

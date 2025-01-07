@@ -31,8 +31,8 @@ fun ProfileScreen(
     var nomorTelp by remember { mutableStateOf("") }
     var nicknameGame by remember { mutableStateOf("") }
 
-    val updateState by userViewModel.updateState.collectAsState()
-    val logoutState by userViewModel.logoutState.collectAsState()
+//    val updateState by userViewModel.updateState.collectAsState()
+//    val logoutState by userViewModel.logoutState.collectAsState()
 
 
 
@@ -76,13 +76,13 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        val request = UpdateUserRequest(
-                            nama_depan = namaDepan,
-                            nama_belakang = namaBelakang,
-                            nomor_telp = nomorTelp,
-                            nicknamegame = nicknameGame
-                        )
-                        userViewModel.updateUser(userId, request, authToken)
+//                        val request = UpdateUserRequest(
+//                            nama_depan = namaDepan,
+//                            nama_belakang = namaBelakang,
+//                            nomor_telp = nomorTelp,
+//                            nicknamegame = nicknameGame
+//                        )
+//                        userViewModel.updateUser(userId, request, authToken)
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -92,7 +92,7 @@ fun ProfileScreen(
 
                 Button(
                     onClick = {
-                        userViewModel.logoutUser(authToken)
+//                        userViewModel.logoutUser(authToken)
                     },
                     modifier = Modifier.fillMaxWidth(),
                 ) {

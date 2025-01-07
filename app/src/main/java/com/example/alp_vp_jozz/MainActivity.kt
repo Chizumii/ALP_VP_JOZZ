@@ -60,9 +60,9 @@ fun AppNavigation() {
         // Tournament View Route
         composable("tournamentView") {
             TournamentView(
-                onCardClick = { name_tournament ->
-                    navController.navigate("tournamentDetail/$name_tournament")
-                }
+//                onCardClick = { name_tournament ->
+//                    navController.navigate("tournamentDetail/$name_tournament")
+//                }
             )
         }
 
@@ -73,7 +73,7 @@ fun AppNavigation() {
         ) { backStackEntry ->
             val tournamentId = backStackEntry.arguments?.getString("tournamentId")
             TournamentDetailView(
-                name_tournament = tournamentId,
+//                name_tournament = tournamentId,
                 onRegisterClick = {
                     navController.navigate("tournamentSubmit/$tournamentId")
                 }
@@ -81,19 +81,19 @@ fun AppNavigation() {
         }
 
         // Tournament Submit Route with Argument
-        composable(
-            "tournamentSubmit/{tournamentId}",
-            arguments = listOf(navArgument("tournamentId") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val tournamentId = backStackEntry.arguments?.getString("tournamentId")
-            TournamentTeamSubmit(
-                tournamentId = tournamentId,
-                onSubmit = {
-                    // Handle post-submission actions, e.g., navigate back or show confirmation
-                    navController.popBackStack("tournamentView", inclusive = false)
-                }
-            )
-        }
+//        composable(
+//            "tournamentSubmit/{tournamentId}",
+//            arguments = listOf(navArgument("tournamentId") { type = NavType.StringType })
+//        ) { backStackEntry ->
+//            val tournamentId = backStackEntry.arguments?.getString("tournamentId")
+//            TournamentTeamSubmit(
+//                tournamentId = tournamentId
+//                onSubmit = {
+////                    // Handle post-submission actions, e.g., navigate back or show confirmation
+////                    navController.popBackStack("tournamentView", inclusive = false)
+//                }
+//            )
+//        }
     }
 }
 

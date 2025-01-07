@@ -25,8 +25,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
     fun registerUser(request: RegisterUserRequest) {
         viewModelScope.launch {
             try {
-                val response = repository.registerUser(request)
-                _userResponse.value = response
+//                val response = repository.registerUser(request)
+//                _userResponse.value = response
             } catch (e: Exception) {
                 _errorMessage.value = e.message
             }
@@ -36,8 +36,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
     fun loginUser(request: LoginUserRequest) {
         viewModelScope.launch {
             try {
-                val response = repository.loginUser(request)
-                _userResponse.value = response
+//                val response = repository.loginUser(request)
+//                _userResponse.value = response
             } catch (e: Exception) {
                 _errorMessage.value = e.message
             }
@@ -47,8 +47,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
     fun updateUser(request: UpdateUserRequest) {
         viewModelScope.launch {
             try {
-                val response = repository.updateUser(request)
-                _userResponse.value = response
+//                val response = repository.updateUser(request)
+//                _userResponse.value = response
             } catch (e: Exception) {
                 _errorMessage.value = e.message
             }
@@ -58,7 +58,7 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
     fun logoutUser() {
         viewModelScope.launch {
             try {
-                repository.logoutUser()
+//                repository.logoutUser()
                 _userResponse.value = null
             } catch (e: Exception) {
                 _errorMessage.value = e.message

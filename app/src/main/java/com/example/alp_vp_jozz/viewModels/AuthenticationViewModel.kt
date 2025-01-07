@@ -19,6 +19,7 @@ import com.example.alp_vp_jozz.R
 import com.example.alp_vp_jozz.repositories.AuthenticationRepository
 import com.example.alp_vp_jozz.repositories.UserRepository
 import com.example.alp_vp_jozz.enums.PagesEnum
+import com.example.alp_vp_jozz.models.UserResponse
 import com.example.alp_vp_jozz.uiStates.AuthenticationStatusUIState
 import com.example.alp_vp_jozz.uiStates.AuthenticationUIState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -165,20 +166,20 @@ class AuthenticationViewModel(
                 call.enqueue(object: Callback<UserResponse> {
                     override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>) {
                         if (res.isSuccessful) {
-                            Log.d("response-data", "RESPONSE DATA: ${res.body()}")
-
-                            saveUserIDToken(res.body()!!.data.token!!, res.body()!!.data.user_id.toString()) {
-
-                                dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
-
-                                resetViewModel()
-
-                                navController.navigate(PagesEnum.Profile.name) {
-                                    popUpTo(PagesEnum.Register.name) {
-                                        inclusive = true
-                                    }
-                                }
-                            }
+//                            Log.d("response-data", "RESPONSE DATA: ${res.body()}")
+//
+//                            saveUserIDToken(res.body()!!.data.token!!, res.body()!!.data.user_id.toString()) {
+//
+//                                dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
+//
+//                                resetViewModel()
+//
+//                                navController.navigate(PagesEnum.Profile.name) {
+//                                    popUpTo(PagesEnum.Register.name) {
+//                                        inclusive = true
+//                                    }
+//                                }
+//                            }
                         } else {
                             dataStatus = AuthenticationStatusUIState.Failed(res.message())
                         }
@@ -207,18 +208,18 @@ class AuthenticationViewModel(
                 call.enqueue(object: Callback<UserResponse> {
                     override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>) {
                         if (res.isSuccessful) {
-                            saveUserIDToken(res.body()!!.data.token!!, res.body()!!.data.user_id.toString()) {
-
-                                dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
-
-                                resetViewModel()
-
-                                navController.navigate(PagesEnum.Profile.name) {
-                                    popUpTo(PagesEnum.Login.name) {
-                                        inclusive = true
-                                    }
-                                }
-                            }
+//                            saveUserIDToken(res.body()!!.data.token!!, res.body()!!.data.user_id.toString()) {
+//
+//                                dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
+//
+//                                resetViewModel()
+//
+//                                navController.navigate(PagesEnum.Profile.name) {
+//                                    popUpTo(PagesEnum.Login.name) {
+//                                        inclusive = true
+//                                    }
+//                                }
+//                            }
                         } else {
                             dataStatus = AuthenticationStatusUIState.Failed(res.message())
                         }
@@ -238,7 +239,7 @@ class AuthenticationViewModel(
 
     fun saveUserIDToken(token: String, userID: String, afterAction:() -> Unit) {
         viewModelScope.launch {
-            userRepository.saveUserID(userID)
+//            userRepository.saveUserID(userID)
             userRepository.saveUserToken(token)
 
             afterAction.invoke()
@@ -247,12 +248,12 @@ class AuthenticationViewModel(
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as EshypeApplication)
-                val authenticationRepository = application.container.authenticationRepository
-                val userRepository = application.container.userRepository
-                AuthenticationViewModel(authenticationRepository, userRepository)
-            }
+//            initializer {
+////                val application = (this[APPLICATION_KEY] as EshypeApplication)
+////                val authenticationRepository = application.container.authenticationRepository
+////                val userRepository = application.container.userRepository
+////                AuthenticationViewModel(authenticationRepository, userRepository)
+//            }
         }
     }
 

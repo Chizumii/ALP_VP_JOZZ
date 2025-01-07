@@ -1,5 +1,7 @@
 package com.example.alp_vp_jozz.repositories
 
+
+import com.example.alp_vp_jozz.models.UserResponse
 import com.example.alp_vp_jozz.services.ProfileService
 import retrofit2.Call
 
@@ -37,13 +39,13 @@ class NetworkProfileRepository(
             UserResponse(
                 username = username ?: "",
                 email = email ?: "",
-                password = password ?: "",
+//                password = password ?: "",
                 nama_depan = namaDepan ?: "",
                 nama_belakang = namaBelakang ?: "",
                 nomor_telp = nomorTelp ?: "",
                 nicknamegame = nicknameGame ?: "",
-                TeamID = teamID ?: 0,
-                token = null
+//                TeamID = teamID ?: 0,
+//                token = null
             )
         )
     }
@@ -66,13 +68,13 @@ class NetworkProfileRepository(
             UserResponse(
                 username = username ?: "",
                 email = email ?: "",
-                password = password ?: "",
+//                password = password ?: "",
                 nama_depan = namaDepan ?: "",
                 nama_belakang = namaBelakang ?: "",
                 nomor_telp = nomorTelp ?: "",
                 nicknamegame = nicknameGame ?: "",
-                TeamID = teamID ?: 0,
-                token = null
+//                TeamID = teamID ?: 0,
+//                token = null
             )
         )
     }

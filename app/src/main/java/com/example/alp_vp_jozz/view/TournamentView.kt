@@ -89,11 +89,14 @@ fun TournamentView() {
                     end = 16.dp
                 ) // Beri ruang untuk navbar atas dan bawah
         ) {
-            items(5) { // Misalnya 5 kartu turnamen
-                TorunamentCard(tournamentName = "1",
-                    tournamentDate = "1",
-                    onCardClick = {})
-                Spacer(modifier = Modifier.height(16.dp)) // Jarak antar kartu
+            items(5) { name_tournament -> // Example with 5 tournament cards
+//                TorunamentCard(
+////                    tournamentId = "tournament_$name_tournament",
+////                    onCardClick = { name_tournament ->
+////                        onCa(name_tournament) // Trigger navigation with tournamentId
+////                    }
+//                )
+                Spacer(modifier = Modifier.height(16.dp)) // Space between cards
             }
         }
 

@@ -3,21 +3,23 @@ package com.example.alp_vp_jozz
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import com.example.alp_vp_jozz.ui.theme.ALP_VP_JOZZTheme
-import com.example.alp_vp_jozz.view.EsHype
+import com.example.alp_vp_jozz.view.LoginScreen
+import dagger.hilt.android.AndroidEntryPoint
 
-class   MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // Enable edge-to-edge
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             ALP_VP_JOZZTheme {
-                EsHype()
+                LoginScreen(
+                    onSignUpClick = { /* Navigasi ke Sign Up */ },
+                    onSignInSuccess = { /* Navigasi ke Profile atau Dashboard */ }
+                )
             }
         }
     }

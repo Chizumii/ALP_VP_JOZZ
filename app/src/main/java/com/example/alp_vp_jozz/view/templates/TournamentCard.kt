@@ -1,14 +1,10 @@
+// TorunamentCard.kt
 package com.example.alp_vp_jozz.view.templates
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,16 +15,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp_jozz.R
 
-
 @Composable
-fun TorunamentCard() {
+fun TorunamentCard(
+    tournamentName: String,
+    tournamentDate: String,
+    onCardClick: () -> Unit
+) {
     Card(
-
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable { onCardClick() } // Handle click
     ) {
         Column(
             modifier = Modifier
@@ -42,8 +43,8 @@ fun TorunamentCard() {
                     .height(180.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.tournament), // Ganti dengan ID gambar Anda
-                    contentDescription = "Esports Background",
+                    painter = painterResource(id = R.drawable.tournament), // Replace with your drawable
+                    contentDescription = "Tournament Image",
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier.fillMaxSize()
                 )
@@ -54,12 +55,10 @@ fun TorunamentCard() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.Start
-
+                    .padding(16.dp)
             ) {
                 Text(
-                    text = "DKI Jakarta Championship",
+                    text = tournamentName,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     modifier = Modifier.fillMaxWidth()
@@ -68,18 +67,20 @@ fun TorunamentCard() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "📅 12 - 18 Desember 2024",
+                    text = "📅 $tournamentDate",
                     fontSize = 14.sp,
-                    color = Color.LightGray,
-                    textAlign = TextAlign.Center
+                    color = Color.LightGray
                 )
             }
         }
     }
 }
 
-@Preview
 @Composable
 fun TorunamentCardPreview() {
-    TorunamentCard()
+    TorunamentCard(
+        tournamentName = "1",
+        tournamentDate =  "1",
+        onCardClick = {}
+    )
 }

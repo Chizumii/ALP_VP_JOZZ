@@ -1,7 +1,6 @@
 package com.example.alp_vp_jozz.repositories
 
 
-import com.example.alp_vp_jozz.models.UserResponse
 import com.example.alp_vp_jozz.services.AuthenticationAPIService
 import retrofit2.Call
 

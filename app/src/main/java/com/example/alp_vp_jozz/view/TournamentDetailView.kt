@@ -1,24 +1,13 @@
+// TournamentDetailView.kt
 package com.example.alp_vp_jozz.view
-
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,19 +23,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp_jozz.R
 
-
 @Composable
-fun TournamentDetailView() {
+fun TournamentDetailView(
+    onRegisterClick: () -> Unit // Click handler for "Register"
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0XFF222222))
     ) {
-        // Navbar atas
+        // Top Navbar
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.TopCenter) // Pastikan berada di bagian atas
+                .align(Alignment.TopCenter)
                 .background(Color(0XFF222222))
         ) {
             Box(
@@ -61,13 +51,13 @@ fun TournamentDetailView() {
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Logo di kiri
+                    // Logo on the left
                     Image(
                         painter = painterResource(R.drawable.community_removebg_preview),
                         contentDescription = "Logo",
                         modifier = Modifier.size(80.dp)
                     )
-                    Spacer(modifier = Modifier.weight(1f)) // Spacer untuk merenggangkan konten
+                    Spacer(modifier = Modifier.weight(1f)) // Spacer to push content to the center
                 }
 
                 Text(
@@ -84,6 +74,8 @@ fun TournamentDetailView() {
                 modifier = Modifier.fillMaxWidth()
             )
         }
+
+        // Main Content
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -111,6 +103,7 @@ fun TournamentDetailView() {
             )
 
             Spacer(modifier = Modifier.height(16.dp))
+
             // Description Section
             Text(
                 text = "Description",
@@ -180,17 +173,19 @@ fun TournamentDetailView() {
                         color = Color.White
                     )
                 }
+
+                // Register Button
                 Box(
                     modifier = Modifier
                         .background(
-                            color = Color(0xFF448AFF), // Warna background biru
-                            shape = RoundedCornerShape(8.dp) // Membuat sudut melengkung
+                            color = Color(0xFF448AFF), // Blue background color
+                            shape = RoundedCornerShape(8.dp) // Rounded corners
                         )
-                        .padding(horizontal = 16.dp, vertical = 8.dp) // Padding di dalam kotak
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                         .clickable {
-                            // TODO: Tambahkan aksi klik di sini
+                            onRegisterClick() // Invoke the click handler
                         },
-                    contentAlignment = Alignment.Center // Konten di tengah
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "Register",
@@ -201,10 +196,10 @@ fun TournamentDetailView() {
             }
         }
 
-        // Navbar bawah
+        // Bottom Navbar
         Column(
             modifier = Modifier
-                .align(Alignment.BottomCenter) // Posisi navbar di bawah
+                .align(Alignment.BottomCenter)
                 .background(Color(0XFF222222))
         ) {
             Divider(
@@ -250,9 +245,8 @@ fun TournamentDetailView() {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun TournamentDetailViewPreview() {
-    TournamentDetailView()
+    TournamentDetailView(onRegisterClick = {})
 }

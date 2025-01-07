@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.alp_vp_jozz.R
-import com.example.alp_vp_jozz.models.UpdateUserRequest
 import com.example.alp_vp_jozz.viewModels.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

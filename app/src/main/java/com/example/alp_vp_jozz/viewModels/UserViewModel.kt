@@ -1,6 +1,8 @@
 package com.example.alp_vp_jozz.viewModels
 
 // viewmodel/UserViewModel.kt
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.alp_vp_jozz.models.LoginUserRequest
@@ -14,47 +16,53 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
-    // Registration
-    private val _registerState = MutableStateFlow<Result<UserResponse>?>(null)
-    val registerState: StateFlow<Result<UserResponse>?> = _registerState
+    private val _userResponse = MutableLiveData<UserResponse>()
+    val userResponse: LiveData<UserResponse> = _userResponse
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
 
     fun registerUser(request: RegisterUserRequest) {
         viewModelScope.launch {
-            val result = repository.registerUser(request)
-            _registerState.value = result
+            try {
+                val response = repository.registerUser(request)
+                _userResponse.value = response
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+            }
         }
     }
-
-    // Login
-    private val _loginState = MutableStateFlow<Result<UserResponse>?>(null)
-    val loginState: StateFlow<Result<UserResponse>?> = _loginState
 
     fun loginUser(request: LoginUserRequest) {
         viewModelScope.launch {
-            val result = repository.loginUser(request)
-            _loginState.value = result
+            try {
+                val response = repository.loginUser(request)
+                _userResponse.value = response
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+            }
         }
     }
 
-    // Update User
-    private val _updateState = MutableStateFlow<Result<UserResponse>?>(null)
-    val updateState: StateFlow<Result<UserResponse>?> = _updateState
-
-    fun updateUser(userId: String, request: UpdateUserRequest, token: String) {
+    fun updateUser(request: UpdateUserRequest) {
         viewModelScope.launch {
-            val result = repository.updateUser(userId, request, token)
-            _updateState.value = result
+            try {
+                val response = repository.updateUser(request)
+                _userResponse.value = response
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+            }
         }
     }
 
-    // Logout
-    private val _logoutState = MutableStateFlow<Result<String>?>(null)
-    val logoutState: StateFlow<Result<String>?> = _logoutState
-
-    fun logoutUser(token: String) {
+    fun logoutUser() {
         viewModelScope.launch {
-            val result = repository.logoutUser(token)
-            _logoutState.value = result
+            try {
+                repository.logoutUser()
+                _userResponse.value = null
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+            }
         }
     }
 }

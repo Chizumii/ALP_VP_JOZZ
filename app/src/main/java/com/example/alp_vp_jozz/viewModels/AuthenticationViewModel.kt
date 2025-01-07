@@ -16,7 +16,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavHostController
 //import com.example.alp_vp_jozz.FoodGramApplication
 import com.example.alp_vp_jozz.R
-import com.example.alp_vp_jozz.models.UserResponse
 import com.example.alp_vp_jozz.repositories.AuthenticationRepository
 import com.example.alp_vp_jozz.repositories.UserRepository
 import com.example.alp_vp_jozz.enums.PagesEnum

@@ -7,23 +7,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
 object RetrofitInstance {
+    private const val BASE_URL = "https://196.64.14.155:3000"
 
-    private const val BASE_URL = "http://your-backend-url.com" // Ganti dengan URL backend Anda
-
-    private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
-
-    val api: UserApi by lazy {
+    val api: UserServiceApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(UserApi::class.java)
+            .create(UserServiceApi::class.java)
     }
 }

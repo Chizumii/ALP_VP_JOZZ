@@ -8,19 +8,11 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.alp_vp_jozz.models.ApiResponse
 import com.example.alp_vp_jozz.models.GeneralResponseModel
-import com.example.alp_vp_jozz.models.LoginUserRequest
-import com.example.alp_vp_jozz.models.RegisterUserRequest
-import com.example.alp_vp_jozz.models.UpdateUserRequest
-import com.example.alp_vp_jozz.models.UserResponse
-import com.example.alp_vp_jozz.services.RetrofitInstance
 import com.example.alp_vp_jozz.services.UserServiceApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
-import okhttp3.Response
 import retrofit2.Call
-import javax.inject.Inject
+
 
 interface UserRepository {
     val currentUserToken: Flow<String>

@@ -2,7 +2,6 @@ package com.example.alp_vp_jozz.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,17 +18,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.alp_vp_jozz.R
-import com.example.alp_vp_jozz.view.templates.TorunamentCard
+import com.example.alp_vp_jozz.viewmodels.TournamentViewModel
 
 @Composable
-fun TournamentView() {
+fun TournamentView(
+    navController: NavController,
+    tournamentViewModel: TournamentViewModel
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -99,53 +103,6 @@ fun TournamentView() {
                 Spacer(modifier = Modifier.height(16.dp)) // Space between cards
             }
         }
-
-        // Navbar bawah
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter) // Posisi navbar di bawah
-                .background(Color(0XFF222222))
-        ) {
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_home_filled_24),
-                    contentDescription = "home",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "search",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.champion),
-                    contentDescription = "champion",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_groups_24),
-                    contentDescription = "team",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_person_24),
-                    contentDescription = "profile",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-        }
     }
 }
 
@@ -153,5 +110,5 @@ fun TournamentView() {
 @Preview(showBackground = true)
 @Composable
 fun TournamentViewPreview() {
-    TournamentView()
+    TournamentView(navController = NavController(LocalContext.current), TournamentViewModel())
 }

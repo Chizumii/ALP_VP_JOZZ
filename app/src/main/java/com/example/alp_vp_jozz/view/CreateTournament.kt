@@ -18,13 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,11 +34,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.alp_vp_jozz.R
+import com.example.alp_vp_jozz.viewmodels.TournamentViewModel
 
 @Composable
-fun CreateTournament() {
+fun CreateTournament(
+    tournamentViewModel: TournamentViewModel,
+    modifier: Modifier,
+    navController: NavHostController,
+    token: String,
+) {
+    val availableLocations = listOf(tournamentViewModel.lokasiInput)
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            uri?.let {
+                    newValue ->
+                tournamentViewModel.imageInput= newValue.toString()
+            }
+        }
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -90,27 +107,15 @@ fun CreateTournament() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Input Fields
-            val tournamentName = remember { mutableStateOf("") }
-            val description = remember { mutableStateOf("") }
-            val cost = remember { mutableStateOf("") }
-            val location = remember { mutableStateOf("") }
-            val tournamentType = remember { mutableStateOf("") }
-
-            // Image Upload
-            var imageUri by remember { mutableStateOf<Uri?>(null) }
-            val launcher = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.GetContent()
-            ) { uri: Uri? ->
-                imageUri = uri
-            }
-
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Tournament Name Input
             OutlinedTextField(
-                value = tournamentName.value,
-                onValueChange = { tournamentName.value = it },
+                value = tournamentViewModel.nameTournamentInput,
+                onValueChange = { newValue ->
+                    tournamentViewModel.nameTournamentInput = newValue
+                },
                 label = { Text("Tournament Name") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
@@ -120,8 +125,9 @@ fun CreateTournament() {
 
             // Description Input
             OutlinedTextField(
-                value = description.value,
-                onValueChange = { description.value = it },
+                value =  tournamentViewModel.descriptionInput,
+                onValueChange = { newValue ->
+                    tournamentViewModel.descriptionInput = newValue },
                 label = { Text("Description") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
@@ -131,35 +137,28 @@ fun CreateTournament() {
 
             // Cost Input
             OutlinedTextField(
-                value = cost.value,
-                onValueChange = { cost.value = it },
+                value = tournamentViewModel.costInput,
+                onValueChange = { newValue ->
+                    tournamentViewModel.costInput = newValue },
                 label = { Text("Cost") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
                 singleLine = true
             )
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Location Input
+            // Tournament Type Input
             OutlinedTextField(
-                value = location.value,
-                onValueChange = { location.value = it },
-                label = { Text("Location") },
+                value = tournamentViewModel.typeInput,
+                onValueChange = { newValue ->
+                    tournamentViewModel.typeInput = newValue},
+                label = { Text("Tournament Type") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
                 singleLine = true
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Tournament Type Input
-            OutlinedTextField(
-                value = tournamentType.value,
-                onValueChange = { tournamentType.value = it },
-                label = { Text("Tournament Type") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
-                singleLine = true
-            )
+
             Spacer(modifier = Modifier.height(18.dp))
             Box(
                 modifier = Modifier
@@ -167,9 +166,9 @@ fun CreateTournament() {
                     .background(Color.Gray, shape = RoundedCornerShape(8.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                if (imageUri != null) {
+                if (tournamentViewModel.imageInput != null) {
                     Image(
-                        painter = rememberAsyncImagePainter(imageUri),
+                        painter = rememberAsyncImagePainter(tournamentViewModel.imageInput),
                         contentDescription = "Tournament Image",
                         modifier = Modifier.fillMaxSize()
                     )
@@ -189,7 +188,10 @@ fun CreateTournament() {
                 onClick = { launcher.launch("image/*") },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8FACE7))
             ) {
-                Text(text = "Choose Image", color = Color.White) // Teks tombol dibuat putih agar terlihat jelas
+                Text(
+                    text = "Choose Image",
+                    color = Color.White
+                ) // Teks tombol dibuat putih agar terlihat jelas
             }
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -206,8 +208,3 @@ fun CreateTournament() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CreateTournamentPreview() {
-    CreateTournament()
-}

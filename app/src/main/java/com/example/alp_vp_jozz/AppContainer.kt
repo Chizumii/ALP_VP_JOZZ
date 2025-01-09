@@ -1,33 +1,33 @@
 package com.example.alp_vp_jozz
 
-
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import com.example.alp_vp_jozz.repositories.AuthenticationRepository
-import com.example.alp_vp_jozz.repositories.NetworkAuthenticationRepository
-import com.example.alp_vp_jozz.services.AuthenticationAPIService
+import com.example.alp_vp_jozz.repositories.NetworkTournamentRepository
+import com.example.alp_vp_jozz.repositories.TournamentRepository
+import com.example.alp_vp_jozz.services.TournamentServiceApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.prefs.Preferences
 
-interface AppContainer{
-    val authenticationRepository: AuthenticationRepository
+
+interface AppContainer {
+    val tournamentRepository: TournamentRepository
 }
 
 class DefaultAppContainer(
     private val userDataStore: DataStore<Preferences>
-): AppContainer{
-    private val APIBaseURL = "http://192.168.56.69:3000/"
+) : AppContainer {
+    // change it to your own local ip please
+    private val baseUrl = "http://192.168.18.252:3000/"
 
-    private val authenticationRetrofitService: AuthenticationAPIService by lazy {
+    private val tournamentRetrofitService: TournamentServiceApi by lazy {
         val retrofit = initRetrofit()
-
-        retrofit.create(AuthenticationAPIService::class.java)
+        retrofit.create(TournamentServiceApi::class.java)
     }
 
-    override val authenticationRepository: AuthenticationRepository by lazy {
-        NetworkAuthenticationRepository(authenticationRetrofitService)
+    override val tournamentRepository: TournamentRepository by lazy {
+        NetworkTournamentRepository(tournamentRetrofitService)
     }
 
     private fun initRetrofit(): Retrofit {
@@ -37,13 +37,16 @@ class DefaultAppContainer(
         val client = OkHttpClient.Builder()
         client.addInterceptor(logging)
 
-
-
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+        return Retrofit
+            .Builder()
+            .addConverterFactory(
+                GsonConverterFactory.create()
+            )
             .client(client.build())
-            .baseUrl(APIBaseURL)
+            .baseUrl(baseUrl)
             .build()
     }
 
+
 }
+

@@ -18,11 +18,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp_jozz.R
+import com.example.alp_vp_jozz.viewmodels.TournamentViewModel
 
 @Composable
 fun TorunamentCard(
-    tournamentName: String,
-    tournamentDate: String,
+    tournamentViewModel: TournamentViewModel
     onCardClick: () -> Unit
 ) {
     Card(
@@ -58,7 +58,7 @@ fun TorunamentCard(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = tournamentName,
+                    text = namatournament,,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     modifier = Modifier.fillMaxWidth()

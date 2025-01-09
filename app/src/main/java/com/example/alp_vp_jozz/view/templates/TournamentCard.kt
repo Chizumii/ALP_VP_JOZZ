@@ -23,13 +23,12 @@ import com.example.alp_vp_jozz.viewmodels.TournamentViewModel
 @Composable
 fun TorunamentCard(
     tournamentViewModel: TournamentViewModel
-    onCardClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { onCardClick() } // Handle click
+            .clickable { } // Handle click
     ) {
         Column(
             modifier = Modifier
@@ -58,7 +57,7 @@ fun TorunamentCard(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = namatournament,,
+                    text =  tournamentViewModel.nameTournamentInput,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     modifier = Modifier.fillMaxWidth()
@@ -67,7 +66,7 @@ fun TorunamentCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "📅 $tournamentDate",
+                    text = tournamentViewModel.descriptionInput ,
                     fontSize = 14.sp,
                     color = Color.LightGray
                 )
@@ -76,11 +75,3 @@ fun TorunamentCard(
     }
 }
 
-@Composable
-fun TorunamentCardPreview() {
-    TorunamentCard(
-        tournamentName = "1",
-        tournamentDate =  "1",
-        onCardClick = {}
-    )
-}

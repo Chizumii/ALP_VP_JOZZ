@@ -14,13 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -44,16 +41,14 @@ fun CreateTournament(
     tournamentViewModel: TournamentViewModel,
     modifier: Modifier,
     navController: NavHostController,
-    token: String,
 ) {
     val availableLocations = listOf(tournamentViewModel.lokasiInput)
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
-            uri?.let {
-                    newValue ->
-                tournamentViewModel.imageInput= newValue.toString()
+            uri?.let { newValue ->
+                tournamentViewModel.imageInput = newValue.toString()
             }
         }
     )
@@ -98,111 +93,124 @@ fun CreateTournament(
         )
 
         // Tournament Creation Section
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Input Fields
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Tournament Name Input
-            OutlinedTextField(
-                value = tournamentViewModel.nameTournamentInput,
-                onValueChange = { newValue ->
-                    tournamentViewModel.nameTournamentInput = newValue
-                },
-                label = { Text("Tournament Name") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
-                singleLine = true
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Description Input
-            OutlinedTextField(
-                value =  tournamentViewModel.descriptionInput,
-                onValueChange = { newValue ->
-                    tournamentViewModel.descriptionInput = newValue },
-                label = { Text("Description") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
-                maxLines = 3
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Cost Input
-            OutlinedTextField(
-                value = tournamentViewModel.costInput,
-                onValueChange = { newValue ->
-                    tournamentViewModel.costInput = newValue },
-                label = { Text("Cost") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
-                singleLine = true
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            // Tournament Type Input
-            OutlinedTextField(
-                value = tournamentViewModel.typeInput,
-                onValueChange = { newValue ->
-                    tournamentViewModel.typeInput = newValue},
-                label = { Text("Tournament Type") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
-                singleLine = true
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-
-
-            Spacer(modifier = Modifier.height(18.dp))
-            Box(
-                modifier = Modifier
-                    .size(120.dp)
-                    .background(Color.Gray, shape = RoundedCornerShape(8.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                if (tournamentViewModel.imageInput != null) {
-                    Image(
-                        painter = rememberAsyncImagePainter(tournamentViewModel.imageInput),
-                        contentDescription = "Tournament Image",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                } else {
-                    Text(
-                        text = "Upload Image",
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(8.dp)
-                    )
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = tournamentViewModel.nameTournamentInput,
+                    onValueChange = { newValue ->
+                        tournamentViewModel.nameTournamentInput = newValue
+                    },
+                    label = { Text("Tournament Name") },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                    singleLine = true
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = tournamentViewModel.descriptionInput,
+                    onValueChange = { newValue ->
+                        tournamentViewModel.descriptionInput = newValue
+                    },
+                    label = { Text("Description") },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                    maxLines = 3
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = tournamentViewModel.costInput,
+                    onValueChange = { newValue ->
+                        tournamentViewModel.costInput = newValue
+                    },
+                    label = { Text("Cost") },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                    singleLine = true
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = tournamentViewModel.typeInput,
+                    onValueChange = { newValue ->
+                        tournamentViewModel.typeInput = newValue
+                    },
+                    label = { Text("Tournament Type") },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                    singleLine = true
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Box(
+                    modifier = Modifier
+                        .size(120.dp)
+                        .background(Color.Gray, shape = RoundedCornerShape(8.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (tournamentViewModel.imageInput != null) {
+                        Image(
+                            painter = rememberAsyncImagePainter(tournamentViewModel.imageInput),
+                            contentDescription = "Tournament Image",
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    } else {
+                        Text(
+                            text = "Upload Image",
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.height(8.dp))
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = { launcher.launch("image/*") },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8FACE7))
-            ) {
-                Text(
-                    text = "Choose Image",
-                    color = Color.White
-                ) // Teks tombol dibuat putih agar terlihat jelas
+            item {
+                Button(
+                    onClick = { launcher.launch("image/*") },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8FACE7))
+                ) {
+                    Text(
+                        text = "Choose Image",
+                        color = Color.White
+                    ) // Teks tombol dibuat putih agar terlihat jelas
+                }
+                Spacer(modifier = Modifier.height(24.dp))
             }
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Create Tournament Button
-            Button(
-                onClick = { /* Create tournament logic */ },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0XFF8FACE7))
-            ) {
-                Text(text = "Create Tournament", color = Color.White, fontSize = 16.sp)
+            item {
+                Button(
+                    onClick = {
+                        tournamentViewModel.createTournament(
+                            navController,
+                            tournamentViewModel.nameTournamentInput,
+                            tournamentViewModel.descriptionInput,
+                            tournamentViewModel.imageInput,
+                            tournamentViewModel.typeInput,
+                            tournamentViewModel.costInput,
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFB71C1C)
+                    ),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text("Next")
+                }
             }
         }
     }

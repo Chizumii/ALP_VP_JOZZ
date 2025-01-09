@@ -74,13 +74,12 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation (libs.coil.compose)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.navigation:navigation-compose:2.8.5")
-    implementation("androidx.datastore:datastore-preferences:1.1.1")//utk persist data
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")//utk request ke backend
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")//untuk convert json ke class
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")//untuk logging
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
+    implementation("androidx.navigation:navigation-compose:2.7.4")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     //datastore
     implementation(libs.androidx.datastore.preferences)
 }

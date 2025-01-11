@@ -8,7 +8,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.prefs.Preferences
 
 
 interface AppContainer {
@@ -16,10 +15,10 @@ interface AppContainer {
 }
 
 class DefaultAppContainer(
-    private val userDataStore: DataStore<Preferences>
+    private val userDataStore: DataStore<androidx.datastore.preferences.core.Preferences>
 ) : AppContainer {
     // change it to your own local ip please
-    private val baseUrl = "http://192.168.18.252:3000/"
+    private val baseUrl = "http://192.168.56.69:3000/"
 
     private val tournamentRetrofitService: TournamentServiceApi by lazy {
         val retrofit = initRetrofit()

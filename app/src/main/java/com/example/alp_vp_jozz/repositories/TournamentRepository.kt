@@ -3,22 +3,24 @@ package com.example.alp_vp_jozz.repositories
 import com.example.alp_vp_jozz.models.GeneralResponseModel
 import com.example.alp_vp_jozz.models.TournamentRequest
 import com.example.alp_vp_jozz.models.TournamentResponse
+import com.example.alp_vp_jozz.models.listTournament
 import com.example.alp_vp_jozz.services.TournamentServiceApi
 import retrofit2.Call
+import retrofit2.Response
 
 
 interface TournamentRepository {
     fun createTournament(
-        namaTournament: String,
+        nama_tournament: String,
         description: String,
         image: String,
         tipe: String,
         biaya: String,
-        lokasiID: Int
+        LokasiID: Int
     ): Call<GeneralResponseModel>
 
     fun updateTournament(
-        namaTournament: String,
+        nama_tournament: String,
         description: String,
         image: String,
         tipe: String,
@@ -27,22 +29,18 @@ interface TournamentRepository {
     ): Call<TournamentResponse>
 
     fun deleteTournament(
-        namaTournament: String,
+        nama_tournament: String,
         description: String,
         image: String,
         tipe: String,
         biaya: String,
-        lokasiID: Int
+        LokasiID: Int
     ): Call<TournamentResponse>
 
-    fun getALLTournament(
-        namaTournament: String,
-        description: String,
-        image: String,
-        tipe: String,
-        biaya: String,
+   suspend fun getALLTournament(
+//        token: String,
         lokasiID: Int
-    ): Call<TournamentResponse>
+    ): Response<listTournament>
 }
 
 
@@ -50,84 +48,74 @@ class NetworkTournamentRepository(
     private val tournamentServiceApi: TournamentServiceApi
 ) : TournamentRepository {
 
-    override fun getALLTournament(
-        namaTournament: String,
-        description: String,
-        image: String,
-        tipe: String,
-        biaya: String,
+    override suspend fun getALLTournament(
+//        token: String,
         lokasiID: Int
-    ): Call<TournamentResponse> {
-        val token = "X-API-SERVICE"
+    ): Response<listTournament> {
+//        val token = "X-API-SERVICE"
         return tournamentServiceApi.getAllTournament(
-            token,
-            namaTournament,
-            description,
-            image,
-            tipe,
-            biaya,
+//            token,
             lokasiID
         )
     }
 
     override fun createTournament(
-        namaTournament: String,
+        nama_tournament: String,
         description: String,
         image: String,
         tipe: String,
         biaya: String,
-        lokasiID: Int
+        LokasiID: Int
     ): Call<GeneralResponseModel> {
-        val token = "X-API-SERVICE"
-        return tournamentServiceApi.createTournament(
-            token,
-            namaTournament,
-            description,
-            image,
-            tipe,
-            biaya,
-            lokasiID
+        val request = TournamentRequest(
+            nama_tournament = nama_tournament,
+            description = description,
+            image = image,
+            tipe = tipe,
+            biaya = biaya,
+            LokasiID = LokasiID
         )
+        return tournamentServiceApi.createTournament(request)
     }
 
     override fun updateTournament(
-        namaTournament: String,
+        nama_tournament: String,
         description: String,
         image: String,
         tipe: String,
         biaya: String,
-        lokasiID: Int
+        LokasiID: Int
     ): Call<TournamentResponse> {
         val token = "X-API-SERVICE"
         return tournamentServiceApi.updateTournament(
             token,
-            namaTournament,
+            nama_tournament,
             description,
             image,
             tipe,
             biaya,
-            lokasiID
+            LokasiID
         )
 
     }
 
     override fun deleteTournament(
-        namaTournament: String,
+        nama_tournament: String,
         description: String,
         image: String,
         tipe: String,
         biaya: String,
-        lokasiID: Int
+        LokasiID: Int
     ): Call<TournamentResponse> {
         val token = "X-API-SERVICE"
         return tournamentServiceApi.deleteTournament(
             token,
-            namaTournament,
+            nama_tournament,
             description,
             image,
             tipe,
             biaya,
-            lokasiID
+            LokasiID
         )
     }
 }

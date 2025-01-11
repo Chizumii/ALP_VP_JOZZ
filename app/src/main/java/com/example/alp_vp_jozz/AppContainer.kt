@@ -18,7 +18,7 @@ class DefaultAppContainer(
     private val userDataStore: DataStore<androidx.datastore.preferences.core.Preferences>
 ) : AppContainer {
     // change it to your own local ip please
-    private val baseUrl = "http://192.168.18.252:3000/"
+    private val baseUrl = "http://192.168.56.69:3000/"
 
     private val tournamentRetrofitService: TournamentServiceApi by lazy {
         val retrofit = initRetrofit()

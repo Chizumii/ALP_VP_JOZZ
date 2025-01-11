@@ -4,10 +4,20 @@ package com.example.alp_vp_jozz.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,15 +28,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.SubcomposeAsyncImage
 import com.example.alp_vp_jozz.R
+import com.example.alp_vp_jozz.models.TournamentResponse
+import com.example.alp_vp_jozz.viewModels.TournamentViewModel
 
 @Composable
 fun TournamentDetailView(
-    onRegisterClick: () -> Unit // Click handler for "Register"
+    tournament: TournamentResponse,
+//    tournamentViewModel: TournamentViewModel // Click handler for "Register"
 ) {
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -83,7 +97,7 @@ fun TournamentDetailView(
         ) {
             // Title
             Text(
-                text = "DKI Jakarta Champion Tournament",
+                text = tournament.nama_tournament,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -91,15 +105,25 @@ fun TournamentDetailView(
             )
 
             // Image
+//            SubcomposeAsyncImage(
+//                model = tournament.image, // This could be a URL, file path, or other input
+//                contentDescription = "Tournament Image",
+//                contentScale = ContentScale.FillWidth,
+//                modifier = Modifier.fillMaxSize(),
+//                loading = {
+//                    // Show a loading indicator while the image is being loaded
+//                    CircularProgressIndicator(
+//                        color = Color.White,
+//                        strokeWidth = 4.dp,
+//                        modifier = Modifier.fillMaxSize()
+//                    )
+//                }
+//            )
             Image(
-                painter = painterResource(id = R.drawable.tournament), // Replace with your drawable ID
-                contentDescription = "Tournament Banner",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(Color.Gray)
-                    .padding(bottom = 16.dp)
+                painter = painterResource( R.drawable.pppppppp),
+                contentDescription = "Tournament Image",
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.fillMaxSize()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -113,7 +137,7 @@ fun TournamentDetailView(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                text = tournament.description,
                 fontSize = 14.sp,
                 color = Color.Gray,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -134,7 +158,7 @@ fun TournamentDetailView(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Rp 20.000",
+                        text = tournament.biaya,
                         fontSize = 14.sp,
                         color = Color.White
                     )
@@ -168,7 +192,7 @@ fun TournamentDetailView(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "BO 3",
+                        text = tournament.tipe,
                         fontSize = 14.sp,
                         color = Color.White
                     )
@@ -183,7 +207,7 @@ fun TournamentDetailView(
                         )
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .clickable {
-                            onRegisterClick() // Invoke the click handler
+                            // Invoke the click handler
                         },
                     contentAlignment = Alignment.Center
                 ) {
@@ -195,58 +219,5 @@ fun TournamentDetailView(
                 }
             }
         }
-
-        // Bottom Navbar
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .background(Color(0XFF222222))
-        ) {
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_home_filled_24),
-                    contentDescription = "home",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "search",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.champion),
-                    contentDescription = "champion",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_groups_24),
-                    contentDescription = "team",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_person_24),
-                    contentDescription = "profile",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-        }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TournamentDetailViewPreview() {
-    TournamentDetailView(onRegisterClick = {})
 }

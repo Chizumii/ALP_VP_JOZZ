@@ -3,7 +3,9 @@ package com.example.alp_vp_jozz.services
 import com.example.alp_vp_jozz.models.GeneralResponseModel
 import com.example.alp_vp_jozz.models.TournamentRequest
 import com.example.alp_vp_jozz.models.TournamentResponse
+import com.example.alp_vp_jozz.models.listTournament
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -15,34 +17,30 @@ import retrofit2.http.Query
 
 interface TournamentServiceApi {
 
-    @POST("/api/tournaments")
+    @POST("/api/tournament")
     fun createTournament(
-        @Header("X-API-TOKEN") token: String,  @Query("namaTournament") namaTournament: String,
+//        @Header("X-API-TOKEN") token: String,
+        @Query("nama_tournament") namaTournament: String,
         @Query("description") description: String,
         @Query("image") image: String,
         @Query("tipe") tipe: String,
         @Query("biaya") biaya: String,
-        lokasiID: Int,
+        @Query("LokasiID")lokasiID: Int,
     ): Call<GeneralResponseModel>
 
-    @GET("/api/tournaments")
-    fun getAllTournament(
-        @Header("X-API-TOKEN") token: String,
-        @Query("namaTournament") namaTournament: String,
-        @Query("description") description: String,
-        @Query("image") image: String,
-        @Query("tipe") tipe: String,
-        @Query("biaya") biaya: String,
-        lokasiID: Int
-    ): Call<TournamentResponse>
+    @GET("/api/tournament")
+    suspend fun getAllTournament(
+//        @Header("X-API-TOKEN") token: String,
+        @Query("LokasiID") lokasiID: Int
+    ): Response<listTournament>
 
 
-    @GET("/api/tournaments/{id}")
+    @GET("/api/tournament/{id}")
     fun getTournamentById(
         @Header("X-API-TOKEN") token: String, @Path("id") id: Int
     ): Call<TournamentResponse>
 
-    @PUT("/api/tournaments/{id}")
+    @PUT("/api/tournament/{id}")
     fun updateTournament(
         @Header("X-API-TOKEN") token: String,
         @Path("id") id: String,
@@ -50,7 +48,7 @@ interface TournamentServiceApi {
         image: String,
         tipe: String,
         biaya: String,
-        lokasiID: Int
+        LokasiID: Int
     ): Call<TournamentResponse>
 
     @DELETE("/api/tournaments/{id}")

@@ -1,4 +1,4 @@
-package com.example.alp_vp_jozz.viewmodels
+package com.example.alp_vp_jozz.viewModels
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -10,22 +10,26 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.example.alp_vp_jozz.EshypeApplication
 import com.example.alp_vp_jozz.enums.PagesEnum
-import com.example.alp_vp_jozz.models.ErrorModel
 import com.example.alp_vp_jozz.models.GeneralResponseModel
-import com.example.alp_vp_jozz.models.GetAllTournament
 import com.example.alp_vp_jozz.models.TournamentResponse
+import com.example.alp_vp_jozz.navigation.Screen
 import com.example.alp_vp_jozz.repositories.TournamentRepository
 import com.example.alp_vp_jozz.uiStates.StringDataStatusUIState
 import com.example.alp_vp_jozz.uiStates.TournamentDataStatusUIState
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import kotlin.coroutines.resume
 
 
 class TournamentViewModel(
@@ -38,6 +42,7 @@ class TournamentViewModel(
     var submissionStatus: StringDataStatusUIState by mutableStateOf(StringDataStatusUIState.Start)
         private set
 
+
     var nameTournamentInput by mutableStateOf("")
 
     var descriptionInput by mutableStateOf("")
@@ -48,7 +53,14 @@ class TournamentViewModel(
 
     var costInput by mutableStateOf("")
 
-    var lokasiInput by mutableStateOf(0)
+    var lokasiInput by mutableStateOf(1)
+
+    private val _tournament = MutableStateFlow<MutableList<TournamentResponse>>(mutableListOf())
+
+    val tounament: StateFlow<List<TournamentResponse>>
+        get() {
+            return _tournament.asStateFlow()
+        }
 
     fun updateNameTournamentInput(input: String) {
         nameTournamentInput = input
@@ -84,94 +96,131 @@ class TournamentViewModel(
         }
     }
 
+    var tournamentList by mutableStateOf(listOf<Screen.Tournament>())
+        private set
+
+    fun updateTournamentList(newList: List<Screen.Tournament>) {
+        tournamentList = newList
+    }
+
+    fun fetchActivities(
+//        token: String,
+        lokasiID: Int
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = tournamentRepository.getALLTournament(
+//                    token = token,
+                    lokasiID,
+                )
+                if (response.isSuccessful) {
+                    val tournament = response.body()?.data
+                    if (tournament!= null) {
+                        _tournament.value = tournament.toMutableList()
+                    } else {
+                        _tournament.value = mutableListOf()
+                    }
+
+                } else {
+                    Log.e("TournamentPageViewModel", "Error: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("TournamentPageViewModel", "Error fetching activities: ${e.message}")
+                // Handle network or unexpected errors
+            }
+        }
+    }
+
     fun createTournament(
-        navController: NavHostController,
+        navController: NavController,
         nameTournamentInput: String,
         descriptionInput: String,
         imageInput: String,
         typeInput: String,
-        costInput: String
+        costInput: String,
+        LokasiID: Int
 
     ) {
         viewModelScope.launch {
             try {
                 val call = tournamentRepository.createTournament(
-                    namaTournament = nameTournamentInput,
+                    nama_tournament = nameTournamentInput,
                     description = descriptionInput,
                     image = imageInput,
                     tipe = typeInput,
                     biaya = costInput,
-                    lokasiID = lokasiInput
+                    LokasiID = LokasiID
                 )
 
-                call.enqueue(object : Callback<GeneralResponseModel> {
-                    override fun onResponse(
-                        call: Call<GeneralResponseModel>,
-                        res: Response<GeneralResponseModel>
-                    ) {
-                        if (res.isSuccessful) {
-                            Log.d("json", "JSON RESPONSE: ${res.body()!!.data}")
+                val response = suspendCancellableCoroutine { continuation ->
+                    call.enqueue(object : Callback<GeneralResponseModel> {
+                        override fun onResponse(
+                            call: Call<GeneralResponseModel>,
+                            response: Response<GeneralResponseModel>
+                        ) {
+                            continuation.resume(response)
+                        }
 
-                            navController.navigate(PagesEnum.Home.name) {
-                                popUpTo(PagesEnum.Login.name) {
-                                    inclusive = true
-                                }
-                            }
-                        } else {
-                            val errorMessage = Gson().fromJson(
-                                res.errorBody()!!.charStream(),
-                                ErrorModel::class.java
-                            )
+                        override fun onFailure(call: Call<GeneralResponseModel>, t: Throwable) {
+                            submissionStatus = StringDataStatusUIState.Failed(t.localizedMessage)
+                        }
+                    })
+                    continuation.invokeOnCancellation {
+                        call.cancel()
+                    }
+                }
 
+                if (response.isSuccessful) {
+                    navController.navigate(PagesEnum.Home.name) {
+                        popUpTo(PagesEnum.Login.name) {
+                            inclusive = true
                         }
                     }
-
-                    override fun onFailure(call: Call<GeneralResponseModel>, t: Throwable) {
-                        submissionStatus = StringDataStatusUIState.Failed(t.localizedMessage)
-                    }
-
-                })
+                }
             } catch (error: IOException) {
                 submissionStatus = StringDataStatusUIState.Failed(error.localizedMessage)
             }
         }
     }
 
-    fun getAllRestaurants(token: String) {
-        viewModelScope.launch {
-            try {
-                val call = tournamentRepository.getALLTournament(
-                    namaTournament = nameTournamentInput,
-                    description = descriptionInput,
-                    image = imageInput,
-                    tipe = typeInput,
-                    biaya = costInput,
-                    lokasiID = lokasiInput
-                )
-                call.enqueue(object : Callback<TournamentResponse> {
-                    override fun onResponse(call: Call<TournamentResponse>, res: Response<TournamentResponse>) {
-                        if (res.isSuccessful) {
-                            Log.d("data-result", "TODO LIST DATA: ${dataStatus}")
-                        } else {
-                            val errorMessage = Gson().fromJson(
-                                res.errorBody()!!.charStream(),
-                                ErrorModel::class.java
-                            )
-
-                            dataStatus = TournamentDataStatusUIState.Failed(errorMessage.errors)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<TournamentResponse>, t: Throwable) {
-                        dataStatus = TournamentDataStatusUIState.Failed(t.localizedMessage)
-                    }
-
-                })
-            } catch (error: IOException) {
-                dataStatus = TournamentDataStatusUIState.Failed(error.localizedMessage)
-            }
-        }
-    }
+//    fun getAllTournament(token: String) {
+//        viewModelScope.launch {
+//            try {
+//                val call = tournamentRepository.getALLTournament(
+//                    namaTournament = nameTournamentInput,
+//                    description = descriptionInput,
+//                    image = imageInput,
+//                    tipe = typeInput,
+//                    biaya = costInput,
+//                    lokasiID = lokasiInput
+//                )
+//                call.enqueue(object : Callback<TournamentResponse> {
+//                    override fun onResponse(
+//                        call: Call<TournamentResponse>,
+//                        res: Response<TournamentResponse>
+//                    ) {
+//                        if (res.isSuccessful) {
+//                            Log.d("data-result", "TODO LIST DATA: ${dataStatus}")
+//                        } else {
+//                            val errorMessage = Gson().fromJson(
+//                                res.errorBody()!!.charStream(),
+//                                ErrorModel::class.java
+//                            )
+//
+//                            dataStatus = TournamentDataStatusUIState.Failed(errorMessage.errors)
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<TournamentResponse>, t: Throwable) {
+//                        dataStatus = TournamentDataStatusUIState.Failed(t.localizedMessage)
+//                    }
+//
+//                })
+//            } catch (error: IOException) {
+//                dataStatus = TournamentDataStatusUIState.Failed(error.localizedMessage)
+//            }
+//        }
+//    }
 
 
 }

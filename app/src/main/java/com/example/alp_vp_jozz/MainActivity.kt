@@ -6,11 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import com.example.alp_vp_jozz.navigation.AppRouting
 import com.example.alp_vp_jozz.ui.theme.ALP_VP_JOZZTheme
-import com.example.alp_vp_jozz.view.LoginScreen
-import com.example.alp_vp_jozz.view.TournamentView
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,4 +2,10 @@ package com.example.alp_vp_jozz.navigation
 
 sealed class Screen(val route: String) {
     object Tournament : Screen("tournament")
+    object Home : Screen("Home")
+    object TournamentCreate: Screen("tournamentCreate")
+    object TournamentDetail : Screen("tournament_detail/{TournamentID}") {
+        fun createRoute(TournamentID: Int) = "tournament_detail/$TournamentID"
+    }
+    object Profile: Screen("Profile")
 }

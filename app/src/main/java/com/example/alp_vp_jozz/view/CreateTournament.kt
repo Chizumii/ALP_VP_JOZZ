@@ -118,7 +118,7 @@ fun CreateTournament(
                 )
             }
 
-            // Image Upload Section
+//             Image Upload Section
             item {
                 Box(
                     modifier = Modifier

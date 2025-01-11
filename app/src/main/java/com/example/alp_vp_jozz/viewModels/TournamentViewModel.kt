@@ -38,10 +38,8 @@ class TournamentViewModel(
     var dataStatus: TournamentDataStatusUIState by mutableStateOf(TournamentDataStatusUIState.Start)
         private set
 
-
     var submissionStatus: StringDataStatusUIState by mutableStateOf(StringDataStatusUIState.Start)
         private set
-
 
     var nameTournamentInput by mutableStateOf("")
 
@@ -182,45 +180,5 @@ class TournamentViewModel(
             }
         }
     }
-
-//    fun getAllTournament(token: String) {
-//        viewModelScope.launch {
-//            try {
-//                val call = tournamentRepository.getALLTournament(
-//                    namaTournament = nameTournamentInput,
-//                    description = descriptionInput,
-//                    image = imageInput,
-//                    tipe = typeInput,
-//                    biaya = costInput,
-//                    lokasiID = lokasiInput
-//                )
-//                call.enqueue(object : Callback<TournamentResponse> {
-//                    override fun onResponse(
-//                        call: Call<TournamentResponse>,
-//                        res: Response<TournamentResponse>
-//                    ) {
-//                        if (res.isSuccessful) {
-//                            Log.d("data-result", "TODO LIST DATA: ${dataStatus}")
-//                        } else {
-//                            val errorMessage = Gson().fromJson(
-//                                res.errorBody()!!.charStream(),
-//                                ErrorModel::class.java
-//                            )
-//
-//                            dataStatus = TournamentDataStatusUIState.Failed(errorMessage.errors)
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<TournamentResponse>, t: Throwable) {
-//                        dataStatus = TournamentDataStatusUIState.Failed(t.localizedMessage)
-//                    }
-//
-//                })
-//            } catch (error: IOException) {
-//                dataStatus = TournamentDataStatusUIState.Failed(error.localizedMessage)
-//            }
-//        }
-//    }
-
 
 }

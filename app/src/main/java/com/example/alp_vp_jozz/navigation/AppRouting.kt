@@ -7,7 +7,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -61,7 +60,8 @@ fun AppRouting(
             ) { backStackEntry ->
                 val TournamentID = backStackEntry.arguments?.getInt("TournamentID")
                 // Get the tournament from your ViewModel's state using tournamentId
-                val tournament = tournamentViewModel.tounament.collectAsState().value.find { it.TournamentID == TournamentID }
+                val tournament =
+                    tournamentViewModel.tounament.collectAsState().value.find { it.TournamentID == TournamentID }
 
                 tournament?.let {
                     TournamentDetailView(tournament = it)

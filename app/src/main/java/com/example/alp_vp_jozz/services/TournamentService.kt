@@ -17,16 +17,12 @@ import retrofit2.http.Query
 
 interface TournamentServiceApi {
 
+
     @POST("/api/tournament")
     fun createTournament(
-//        @Header("X-API-TOKEN") token: String,
-        @Query("nama_tournament") namaTournament: String,
-        @Query("description") description: String,
-        @Query("image") image: String,
-        @Query("tipe") tipe: String,
-        @Query("biaya") biaya: String,
-        @Query("LokasiID")lokasiID: Int,
+        @Body request: TournamentRequest
     ): Call<GeneralResponseModel>
+
 
     @GET("/api/tournament")
     suspend fun getAllTournament(

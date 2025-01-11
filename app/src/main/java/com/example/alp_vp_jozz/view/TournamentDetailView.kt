@@ -192,7 +192,7 @@ fun TournamentDetailView(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = tournament.tipe,
+                        text = tournament.image,
                         fontSize = 14.sp,
                         color = Color.White
                     )

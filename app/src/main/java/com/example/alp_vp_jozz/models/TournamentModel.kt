@@ -28,12 +28,12 @@ data class TournamentResponse(
 
 // Data class untuk permintaan tournament (misalnya, saat mengambil detail tertentu)
 data class TournamentRequest(
-    val nama_tournament: String = "",
-    val description: String = "",
-    val image: String = "",
-    val tipe: String = "",
-    val biaya: String = "",
-    val LokasiID: Int = 0
+    val nama_tournament: String,
+    val description: String,
+    val image: String,
+    val tipe: String,
+    val biaya: String,
+    val LokasiID: Int
 )
 
 // Data class untuk memperbarui tournament

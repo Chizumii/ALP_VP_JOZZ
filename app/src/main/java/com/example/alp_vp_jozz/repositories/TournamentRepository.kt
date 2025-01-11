@@ -67,16 +67,15 @@ class NetworkTournamentRepository(
         biaya: String,
         LokasiID: Int
     ): Call<GeneralResponseModel> {
-        val token = "X-API-SERVICE"
-        return tournamentServiceApi.createTournament(
-//            token,
-            nama_tournament,
-            description,
-            image,
-            tipe,
-            biaya,
-            LokasiID
+        val request = TournamentRequest(
+            nama_tournament = nama_tournament,
+            description = description,
+            image = image,
+            tipe = tipe,
+            biaya = biaya,
+            LokasiID = LokasiID
         )
+        return tournamentServiceApi.createTournament(request)
     }
 
     override fun updateTournament(

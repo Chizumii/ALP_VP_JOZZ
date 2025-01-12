@@ -14,7 +14,11 @@ class NetworkTeamRepository(
     private val teamServiceApi: TeamServiceApi
 ) : TeamRepository {
     override fun createTeam(request: CreateTeamRequest): Call<TeamResponse> {
+<<<<<<< Updated upstream
         return teamServiceApi.createteam(request)
+=======
+        return teamServiceApi.createTeam(request)
+>>>>>>> Stashed changes
     }
 
     override suspend fun getTeam(teamID: Int): Response<TeamResponse> {

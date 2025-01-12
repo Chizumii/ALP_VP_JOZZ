@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.android
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -81,6 +83,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")//untuk convert json ke class
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")//untuk logging
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
+    implementation ("androidx.compose.material3:material3:1.x.x")
+
     //datastore
     implementation(libs.androidx.datastore.preferences)
 }

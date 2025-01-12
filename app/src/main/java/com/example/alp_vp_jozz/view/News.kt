@@ -27,7 +27,12 @@ data class NewsItem(
 )
 
 @Composable
-fun NewsScreen(newsList: List<NewsItem>, modifier: Modifier = Modifier) {
+fun NewsScreen(
+    newsList: List<NewsItem>,
+    onCreateNewsClick: () -> Unit,
+    modifier: Modifier = Modifier
+)
+ {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -75,8 +80,24 @@ fun NewsScreen(newsList: List<NewsItem>, modifier: Modifier = Modifier) {
                 .padding(horizontal = 16.dp)
         ) {
             items(newsList) { news ->
-                NewsItemView(news)
+                NewsItemView(newsItem = news)
                 Divider(color = Color.Gray, thickness = 1.dp)
+            }
+        }
+
+        // Tombol Create News
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            androidx.compose.material3.Button(
+                onClick = { onCreateNewsClick() },
+                modifier = Modifier.fillMaxWidth(),
+                colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = Color(0xFF5A5AFF))
+            ) {
+                Text(text = "Create News", color = Color.White)
             }
         }
 
@@ -93,31 +114,20 @@ fun NewsScreen(newsList: List<NewsItem>, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_home_filled_24),
-                    contentDescription = "Home",
-                    modifier = Modifier.size(40.dp)
+                val icons = listOf(
+                    R.drawable.baseline_home_filled_24 to "Home",
+                    R.drawable.baseline_search_24 to "Search",
+                    R.drawable.champion to "Champion",
+                    R.drawable.baseline_groups_24 to "Team",
+                    R.drawable.baseline_person_24 to "Profile"
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "Search",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.champion),
-                    contentDescription = "Champion",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_groups_24),
-                    contentDescription = "Team",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_person_24),
-                    contentDescription = "Profile",
-                    modifier = Modifier.size(40.dp)
-                )
+                icons.forEach { (iconRes, description) ->
+                    Image(
+                        painter = painterResource(id = iconRes),
+                        contentDescription = description,
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             }
         }
     }
@@ -138,7 +148,11 @@ fun NewsItemView(newsItem: NewsItem) {
                 .size(120.dp)
                 .padding(end = 20.dp)
         )
-        Column(modifier = Modifier.weight(1f).padding(10.dp)) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(10.dp)
+        ) {
             Text(
                 text = newsItem.title,
                 fontSize = 16.sp,
@@ -158,13 +172,15 @@ fun NewsItemView(newsItem: NewsItem) {
 @Preview(showBackground = true)
 @Composable
 fun NewsScreenPreview() {
-    // Generate a list of NewsItem dynamically
-    val previewNewsList = List(10) { index ->
+    val previewNewsList = List(1) { index ->
         NewsItem(
-            imageRes = R.drawable.shortnsweet,
-            title = "M6 Bracket MLBB $index",
-            description = "Preview Detail for item $index"
+            imageRes = R.drawable.shortnsweet, // Replace with a valid drawable
+            title = "News Title $index",
+            description = "Description for News $index"
         )
     }
-    NewsScreen(newsList = previewNewsList)
+    NewsScreen(
+        newsList = previewNewsList,
+        onCreateNewsClick = {}
+    )
 }

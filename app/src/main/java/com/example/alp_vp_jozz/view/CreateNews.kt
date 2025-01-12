@@ -1,47 +1,82 @@
 package com.example.alp_vp_jozz.view
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.alp_vp_jozz.R
+import com.example.alp_vp_jozz.viewModels.NewsViewModel
 
 @Composable
-fun CreateNewsScreen() {
+fun CreateNewsScreen(
+    navController: NavController,
+    newsViewModel: NewsViewModel
+) {
+    var titleInput by remember { mutableStateOf(newsViewModel.titleInput) }
+    var descriptionInput by remember { mutableStateOf(newsViewModel.descriptionInput) }
+    var authorInput by remember { mutableStateOf(newsViewModel.authorInput) }
+    var imageInput by remember { mutableStateOf(newsViewModel.imageInput) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            uri?.let { newValue ->
+                imageInput = newValue.toString()
+                newsViewModel.updateImageInput(imageInput)
+            }
+        }
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF222222))
     ) {
-        // Top Bar
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color(0xFF333333))
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
+                .padding(vertical = 8.dp),
         ) {
-            Text(
-                text = "News Creation",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.community_removebg_preview),
+                    contentDescription = "Logo",
+                    modifier = Modifier.size(80.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    text = "Create News",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.weight(2f)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+            }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         // Create News Section
         Box(
@@ -61,87 +96,167 @@ fun CreateNewsScreen() {
                     text = "Create News",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    textAlign = TextAlign.Center
+                    color = Color.White
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Upload Logo Section
+                // Title Input
+                CustomTextField(
+                    value = titleInput,
+                    onValueChange = {
+                        titleInput = it
+                        newsViewModel.updateTitleInput(it)
+                    },
+                    label = "Title"
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Description Input
+                CustomTextField(
+                    value = descriptionInput,
+                    onValueChange = {
+                        descriptionInput = it
+                        newsViewModel.updateDescriptionInput(it)
+                    },
+                    label = "Description",
+                    maxLines = 3
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Author Input
+                CustomTextField(
+                    value = authorInput,
+                    onValueChange = {
+                        authorInput = it
+                        newsViewModel.updateAuthorInput(it)
+                    },
+                    label = "Author"
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Image Upload Section
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(120.dp)
-                        .background(Color.Gray, shape = RoundedCornerShape(8.dp)),
+                        .size(200.dp)
+                        .background(
+                            color = Color(0xFF2D2D2D),
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                        .padding(2.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Upload News Image",
-                            color = Color.White,
-                            fontSize = 14.sp
+                    if (imageInput != null) {
+                        Image(
+                            painter = rememberAsyncImagePainter(newsViewModel.imageInput),
+                            contentDescription = "News Image",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(16.dp))
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Button(
-                            onClick = { /* Handle Upload */ },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF5A5AFF))
+                    } else {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "Upload", color = Color.White)
+                            Image(
+                                painter = painterResource(R.drawable.community_removebg_preview),
+                                contentDescription = "Upload Icon",
+                                modifier = Modifier.size(48.dp)
+                            )
+                            Text(
+                                text = "Upload News Image",
+                                color = Color.White,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Complete Button
                 Button(
-                    onClick = { /* Handle Completion */ },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF5A5AFF)),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Text(text = "COMPLETE", color = Color.White)
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Bottom Navigation
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            val icons = listOf(
-                R.drawable.baseline_home_filled_24 to "Home",
-                R.drawable.baseline_search_24 to "Search",
-                R.drawable.champion to "Champion",
-                R.drawable.baseline_groups_24 to "Team",
-                R.drawable.baseline_person_24 to "Profile"
-            )
-
-            icons.forEach { (iconRes, description) ->
-                Image(
-                    painter = painterResource(id = iconRes),
-                    contentDescription = description,
+                    onClick = { launcher.launch("image/*") },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4A90E2)),
                     modifier = Modifier
-                        .size(40.dp)
-                        .clickable { /* Handle Navigation */ }
-                )
+                        .padding(vertical = 16.dp)
+                        .height(48.dp),
+                    shape = RoundedCornerShape(24.dp)
+                ) {
+                    Text(
+                        text = "Choose Image",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Submit Button
+                Button(
+                    onClick = {
+                        newsViewModel.createNews(
+                            navController,
+                            titleInput,
+                            descriptionInput,
+                            authorInput,
+                            imageInput
+                        )
+                        navController.navigate("News")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFE53935)
+                    ),
+                    shape = RoundedCornerShape(28.dp)
+                ) {
+                    Text(
+                        text = "Create News",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
-fun CreateNewsScreenPreview() {
-    CreateNewsScreen()
+fun CustomTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    maxLines: Int = 1
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = label,
+            color = Color.White,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF2D2D2D), RoundedCornerShape(12.dp)),
+            textStyle = TextStyle(
+                color = Color.White,
+                fontSize = 16.sp
+            ),
+            maxLines = maxLines,
+            shape = RoundedCornerShape(12.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFF4A90E2),
+                unfocusedBorderColor = Color(0xFF404040),
+                cursorColor = Color(0xFF4A90E2)
+            )
+        )
+    }
 }

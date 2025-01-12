@@ -1,5 +1,4 @@
 package com.example.alp_vp_jozz.view
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,9 +21,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.alp_vp_jozz.viewModels.UserViewModel
-
-// ui/LoginScreen.kt
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.Divider
@@ -35,13 +31,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.alp_vp_jozz.R
 import com.example.alp_vp_jozz.models.LoginUserRequest
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(userViewModel: UserViewModel, onLoginSuccess: () -> Unit) {
+fun LoginScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +61,6 @@ fun LoginScreen(userViewModel: UserViewModel, onLoginSuccess: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
-
             Text(
                 text = "Create Tournament",
                 fontSize = 20.sp,
@@ -81,7 +74,6 @@ fun LoginScreen(userViewModel: UserViewModel, onLoginSuccess: () -> Unit) {
             thickness = 1.dp,
             modifier = Modifier.fillMaxWidth()
         )
-
         // Login Form
         Column(
             modifier = Modifier
@@ -108,7 +100,6 @@ fun LoginScreen(userViewModel: UserViewModel, onLoginSuccess: () -> Unit) {
             Button(
                 onClick = {
                     val request = LoginUserRequest(email, password)
-                    userViewModel.loginUser(request)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -117,4 +108,3 @@ fun LoginScreen(userViewModel: UserViewModel, onLoginSuccess: () -> Unit) {
         }
     }
 }
-

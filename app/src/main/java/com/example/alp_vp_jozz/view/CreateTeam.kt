@@ -26,8 +26,6 @@ fun CreateTeamScreen() {
             .fillMaxSize()
             .background(Color(0xFF222222))
     ) {
-        // Top Bar
-        TopBar()
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -109,8 +107,6 @@ fun CreateTeamScreen() {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Bottom Navigation
-        BottomNavigationBar()
     }
 }
 

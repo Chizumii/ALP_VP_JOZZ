@@ -1,28 +1,69 @@
 package com.example.alp_vp_jozz.models
 
-data class TournamentModel(
-    val id: Int, // ID Tournament dari backend
-    val name_tournament: String,
-    val description: String, // Nama properti konsisten dengan deskripsi
-    val image: String,
-    val tipe: String,
-    val biaya: String,
-    val lokasiID: Int
-)
-
-data class createTournament(
-    val name_tournament: String,
+// TournamentModel.kt
+// Data class untuk membuat tournament baru
+data class CreateTournament(
+    val nama_tournament: String,
     val description: String,
     val image: String,
     val tipe: String,
     val biaya: String,
-    val lokasiID: Int // Ditambahkan karena backend membutuhkannya
+    val LokasiID: Int
 )
 
-data class getAllTournament(
-    val data: List<TournamentModel>?,
-    val message: String?,
-    val error: Boolean = false // Properti tambahan untuk error handling
+data class listTournament(
+    val data: List<TournamentResponse>
+)
+
+// Data class untuk respons tournament
+data class TournamentResponse(
+    val TournamentID: Int = 0,
+    val nama_tournament: String = "",
+    val description: String = "",
+    val image: String = "",
+    val tipe: String = "",
+    val biaya: String = "",
+    val LokasiID: Int = 0
+)
+
+// Data class untuk permintaan tournament (misalnya, saat mengambil detail tertentu)
+data class TournamentRequest(
+    val nama_tournament: String,
+    val description: String,
+    val image: String,
+    val tipe: String,
+    val biaya: String,
+    val LokasiID: Int
+)
+
+// Data class untuk memperbarui tournament
+data class UpdateTournament(
+    val namaTournament: String = "",
+    val description: String = "",
+    val image: String = "",
+    val tipe: String = "",
+    val biaya: String = "",
+    val LokasiID: Int = 0
+)
+
+// Data class untuk menghapus tournament
+data class DeleteTournament(
+    val namaTournament: String = "",
+    val description: String = "",
+    val image: String = "",
+    val tipe: String = "",
+    val biaya: String = "",
+    val LokasiID: Int = 0
+)
+
+// Data class untuk mendapatkan semua tournament
+data class GetAllTournament(
+    val namaTournament: String = "",
+    val description: String = "",
+    val image: String = "",
+    val tipe: String = "",
+    val biaya: String = "",
+    val lokasiID: Int = 0
 )
 
 

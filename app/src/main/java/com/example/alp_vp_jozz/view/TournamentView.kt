@@ -2,34 +2,51 @@ package com.example.alp_vp_jozz.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.alp_vp_jozz.R
 import com.example.alp_vp_jozz.view.templates.TorunamentCard
+import com.example.alp_vp_jozz.viewModels.TournamentViewModel
 
 @Composable
-fun TournamentView() {
+fun TournamentView(
+    navController: NavController,
+    tournamentViewModel: TournamentViewModel
+) {
+
+    val tournament by tournamentViewModel.tounament.collectAsState()
+
+    LaunchedEffect(Unit) {
+        tournamentViewModel.fetchActivities(
+//            token = tournamentViewModel.
+            lokasiID = tournamentViewModel.lokasiInput
+        )
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +62,7 @@ fun TournamentView() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0XFF222222)),
+                    .background(Color(0xFF222222)),
                 contentAlignment = Alignment.Center
             ) {
                 Row(
@@ -60,15 +77,32 @@ fun TournamentView() {
                         contentDescription = "Logo",
                         modifier = Modifier.size(80.dp)
                     )
+
+                    // Spacer untuk mengambil ruang kosong antara logo kiri dan tombol kanan
                     Spacer(modifier = Modifier.weight(1f))
+
+                    // Box untuk tombol di kanan
+                    Box(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clickable { navController.navigate("tournamentCreate") }, // Handle click action here
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.baseline_add_circle_outline_24),
+                            contentDescription = "Logo Button"
+                        )
+                    }
                 }
 
+                // Menampilkan teks di tengah bawah
                 Text(
                     text = "Tournament",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Center) // Pastikan teks berada di tengah
                 )
             }
             Divider(
@@ -83,75 +117,21 @@ fun TournamentView() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    top = 90.dp,
-                    bottom = 80.dp,
+                    top = 82.dp,
                     start = 16.dp,
                     end = 16.dp
                 ) // Beri ruang untuk navbar atas dan bawah
         ) {
-            items(5) { name_tournament -> // Example with 5 tournament cards
-//                TorunamentCard(
-////                    tournamentId = "tournament_$name_tournament",
-////                    onCardClick = { name_tournament ->
-////                        onCa(name_tournament) // Trigger navigation with tournamentId
-////                    }
-//                )
-                Spacer(modifier = Modifier.height(16.dp)) // Space between cards
+            items(tournament) { tournament ->
+                TorunamentCard(
+                    tournament,
+                    tournamentViewModel = tournamentViewModel,
+                            navController = navController
+                )
             }
-        }
 
-        // Navbar bawah
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter) // Posisi navbar di bawah
-                .background(Color(0XFF222222))
-        ) {
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_home_filled_24),
-                    contentDescription = "home",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "search",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.champion),
-                    contentDescription = "champion",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_groups_24),
-                    contentDescription = "team",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_person_24),
-                    contentDescription = "profile",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
         }
     }
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun TournamentViewPreview() {
-    TournamentView()
-}

@@ -1,6 +1,9 @@
 package com.example.alp_vp_jozz.services
 
-import com.example.alp_vp_jozz.models.BeritaModel
+import com.example.alp_vp_jozz.models.BeritaResponse
+import com.example.alp_vp_jozz.models.CreateBerita
+import com.example.alp_vp_jozz.models.UpdateBerita
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -11,23 +14,26 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface BeritaApiService {
+    // Get all news
+    @GET("news")
+    suspend fun getAllBerita(): Response<List<BeritaResponse>>
 
-    @GET("/api/news")
-    suspend fun getAllBerita(): List<BeritaModel>
+    // Create news
+    @POST("news")
+    suspend fun createBerita(@Body berita: CreateBerita): Response<BeritaResponse>
 
-    @POST("/api/news")
-    suspend fun createBerita(@Body berita: BeritaModel): BeritaModel
+    // Update news
+    @PUT("news/{id}")
+    suspend fun updateBerita(@Path("id") id: Int, @Body berita: UpdateBerita): Response<BeritaResponse>
 
-    @PUT("/api/news/{id}")
-    suspend fun updateBerita(@Path("id") id: Int, @Body berita: BeritaModel): BeritaModel
-
-    @DELETE("/api/news/{id}")
-    suspend fun deleteBerita(@Path("id") id: Int): Boolean
+    // Delete news
+    @DELETE("news/{id}")
+    suspend fun deleteBerita(@Path("id") id: Int): Response<Unit>
 }
 
 object BeritaService {
 
-    private const val BASE_URL = "https://your-api-url.com/" // Ganti dengan URL API Anda
+    private const val BASE_URL = "http://192.168.56.69:3000/" // Ganti dengan URL API Anda
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()

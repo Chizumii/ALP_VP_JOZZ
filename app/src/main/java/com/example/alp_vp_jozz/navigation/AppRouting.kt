@@ -17,6 +17,7 @@ import com.example.alp_vp_jozz.view.CreateTournament
 import com.example.alp_vp_jozz.view.HomeView
 import com.example.alp_vp_jozz.view.ProfileScreen
 import com.example.alp_vp_jozz.view.TournamentDetailView
+import com.example.alp_vp_jozz.view.TournamentTeamSubmit
 import com.example.alp_vp_jozz.view.TournamentView
 import com.example.alp_vp_jozz.viewModels.TournamentViewModel
 
@@ -59,12 +60,26 @@ fun AppRouting(
                 )
             ) { backStackEntry ->
                 val TournamentID = backStackEntry.arguments?.getInt("TournamentID")
+                val tournament =
+                    tournamentViewModel.tounament.collectAsState().value.find { it.TournamentID == TournamentID }
+
+                tournament?.let {
+                    TournamentDetailView(tournament = it, navController)
+                }
+            }
+            composable(
+                route = Screen.TournamentSubmit.route,
+                arguments = listOf(
+                    navArgument("TournamentID") { type = NavType.IntType }
+                )
+            ) { backStackEntry ->
+                val TournamentID = backStackEntry.arguments?.getInt("TournamentID")
                 // Get the tournament from your ViewModel's state using tournamentId
                 val tournament =
                     tournamentViewModel.tounament.collectAsState().value.find { it.TournamentID == TournamentID }
 
                 tournament?.let {
-                    TournamentDetailView(tournament = it)
+                    TournamentTeamSubmit(tournament = it, navController)
                 }
             }
             composable(Screen.Home.route) {

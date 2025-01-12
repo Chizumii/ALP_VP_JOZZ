@@ -30,14 +30,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.example.alp_vp_jozz.R
 import com.example.alp_vp_jozz.models.TournamentResponse
+import com.example.alp_vp_jozz.navigation.Screen
 import com.example.alp_vp_jozz.viewModels.TournamentViewModel
 
 @Composable
 fun TournamentDetailView(
     tournament: TournamentResponse,
+    navController: NavController
 //    tournamentViewModel: TournamentViewModel // Click handler for "Register"
 ) {
 
@@ -207,7 +210,7 @@ fun TournamentDetailView(
                         )
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .clickable {
-                            // Invoke the click handler
+                            navController.navigate(Screen.TournamentSubmit.createRoute(tournament.TournamentID))
                         },
                     contentAlignment = Alignment.Center
                 ) {

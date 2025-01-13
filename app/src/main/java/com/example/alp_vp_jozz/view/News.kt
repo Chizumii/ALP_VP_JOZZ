@@ -27,9 +27,9 @@ data class NewsItem(
 )
 
 @Composable
-fun NewsScreen(newsList: List<NewsItem>, modifier: Modifier = Modifier) {
+fun NewsScreen(newsList: List<NewsItem>) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF222222))
     ) {
